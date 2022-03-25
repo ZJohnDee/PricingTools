@@ -3,6 +3,8 @@ import {FC} from "react";
 import React from "react";
 import {Button} from "@mui/material";
 
+import "./header.css";
+
 const Header:FC = (props) =>
 {
 
@@ -18,7 +20,13 @@ const Header:FC = (props) =>
 
         {
           !loggedIn &&
-          <Button variant={"contained"}>Login</Button>
+          <Button
+            variant={"contained"}
+            color={"secondary"}
+            href={"/login"}
+          >
+            Login
+          </Button>
         }
 
         {

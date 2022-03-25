@@ -1,0 +1,21 @@
+.header
+{
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+
+    box-shadow: 0 5px 15px #e0e0e0;
+
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
+
+.header-logo
+{
+
+}
+
+.header-login
+{
+
+}
