@@ -1,0 +1,37 @@
+#page-dashboard
+{
+
+}
+
+#page-dashboard-sections
+{
+    display: grid;
+    grid-template-columns: 33% 34% 33%;
+
+}
+
+#page-dashboard-contracts
+{
+
+}
+
+#page-dashboard-contracts
+{
+
+}
+
+#page-dashboard-customers
+{
+
+}
+
+#page-dashboard-section
+{
+    background-color: rgba(218, 237, 237, 0.97);
+}
+
+#page-dashboard h1
+{
+    text-align: center;
+
+}

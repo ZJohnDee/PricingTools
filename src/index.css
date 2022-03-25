@@ -19,3 +19,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.edit-component
+{
+  margin: 20px;
+}
+
+.edit-component-sub
+{
+  margin: 5px;
+  margin-top: 15px;
+  padding: 10px;
+  box-shadow: 0 1px 7px #aaaaaa;
+
+}

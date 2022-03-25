@@ -8,6 +8,8 @@ import {Padding} from "@mui/icons-material";
 import PageLogin from "./pages/login/PageLogin";
 import {UserContext} from "./libs/context";
 import {useUserData} from "./libs/hooks";
+import PageDashboard from "./pages/dashboard/PageDashboard";
+import PageAddProduct from "./pages/add_product/PageAddProduct";
 
 const themeOptions = {
     palette: {
@@ -39,6 +41,8 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path={"/login"} element={<PageLogin/>}/>
+                        <Route path={"/dashboard"} element={<PageDashboard/>}/>
+                        <Route path={"/add/product"} element={<PageAddProduct/>}/>
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>

@@ -44,6 +44,13 @@ export const storage = firebase.storage();
 export const loginWithGoogle = async () =>
 {
   await auth.signInWithPopup(googleAuthProvider);
+  let user = auth.currentUser;
+
+  const userRef = firestore.doc(`users/${user.uid}`);
+  await userRef.set({
+    uid: user.uid
+  });
+
 }
 
 export const logout = async() =>
