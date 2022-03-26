@@ -25,8 +25,8 @@ interface ProductData
 }
 
 
-const characters: string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-function getRandomId(length: number = 32) : string
+const characters: string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-"
+function getRandomId(length: number = 48) : string
 {
   let result = "";
 
@@ -97,6 +97,11 @@ export class Product
   setComponent(index: number, component: ProductComponent)
   {
     this.data.components[index] = component.getData();
+  }
+
+  getID() : string
+  {
+    return this.data.id;
   }
 }
 
@@ -176,6 +181,17 @@ export async function getProductFromFirestore(user: any, id: string) : Promise<P
   }
 
   return null;
+}
+
+
+export async function pushProductToFirestore(user: any, product: Product)
+{
+  const id = product.getID();
+
+  let ref = firestore.collection("users").doc(user.uid).collection("products").doc(id);
+
+  ref.set(product.data);
+
 }
 
 

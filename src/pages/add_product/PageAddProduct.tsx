@@ -1,8 +1,9 @@
-import {FC, useState} from "react";
+import {FC, useContext, useState} from "react";
 import React from "react";
-import {Product, ProductComponent, ProductData} from "../../libs/dataUtils";
+import {Product, ProductComponent, ProductData, pushProductToFirestore} from "../../libs/dataUtils";
 import {Button, TextField} from "@mui/material";
 import ComponentDisplay from "./ComponentDisplay";
+import { UserContext } from "../../libs/context";
 
 
 
@@ -11,6 +12,8 @@ const PageAddProduct:FC = () =>
 {
   const [product, setProduct] = useState(new Product());
   const [ticks, setTicks] = useState(0);
+
+  const {user} = useContext(UserContext); 
 
 
   let emComponents = [];
@@ -84,6 +87,16 @@ const PageAddProduct:FC = () =>
         }}
       >
         Print Component Data
+      </Button>
+
+      <Button
+        color={"secondary"}
+        variant="contained"
+        onClick={() => {
+          pushProductToFirestore(user, product);
+        }}
+      >
+        SAVE
       </Button>
 
     </div>
