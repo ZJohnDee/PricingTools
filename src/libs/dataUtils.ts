@@ -9,6 +9,8 @@ interface ProductComponentData
   type: ProductComponentType,
   price: ProductComponentPriceType,
   required: boolean,
+  id: string,
+  description: string,
   choices?:
     {
       name: string,
@@ -17,11 +19,35 @@ interface ProductComponentData
     }[]
 }
 
+interface ContractData
+{
+  product: Product,
+  client: Client,
+  id: string,
+  components: ContractComponentLinkData[]
+}
+
+interface ContractComponentLinkData
+{
+  componentID: string,
+  value: string | number
+}
+
 interface ProductData
 {
   productName: string,
+  description: string,
   id: string,
   components: ProductComponentData[]
+}
+
+interface ClientData
+{
+  firstName: string,
+  lastName: string,
+  title: string,
+  email: string,
+  id: string,
 }
 
 
@@ -50,6 +76,7 @@ export class Product
     this.data = {
       id: getRandomId(),
       productName: "New Product",
+      description: "Description",
       components: [],
     };
 
@@ -73,6 +100,8 @@ export class Product
   {
     let component: ProductComponentData = {
       name: "New Component",
+      description: "Description",
+      id: getRandomId(24),
       type: "addon",
       price: 100,
       required: false,
@@ -102,6 +131,16 @@ export class Product
   getID() : string
   {
     return this.data.id;
+  }
+
+  getDescription(): string
+  {
+    return this.data.description;
+  }
+
+  setDescription(description: string)
+  {
+    this.data.description = description;
   }
 }
 
@@ -165,6 +204,32 @@ export class ProductComponent {
       this.data.choices[index] = choice;
     }
   }
+
+  isRequired(): boolean
+  {
+    return this.data.required;
+  }
+
+  setRequired(required: boolean)
+  {
+    this.data.required = required;
+  }
+
+  getDescription(): string
+  {
+    return this.data.description;
+  }
+
+  setDescription(description: string)
+  {
+    this.data.description = description;
+  }
+
+  getID(): string
+  {
+    return this.data.id;
+  }
+
 }
 
 
@@ -204,6 +269,107 @@ export async function getAllProductsFromFirestore(user: any): Promise<Product[]>
   let products = data.map((d) => new Product(d as ProductData));
 
   return products;
+}
+
+export class Client
+{
+  data: ClientData;
+
+  constructor(data=null)
+  {
+    if (data == null)
+    {
+      this.data={
+        id: getRandomId(48),
+        firstName: "",
+        lastName: "",
+        title: "",
+        email: ""
+      }
+    }
+    else
+    {
+      this.data = data;
+    }
+  }
+
+  getFirstName(): string
+  {
+    return this.data.firstName;
+  }
+
+  setFirstName(name: string)
+  {
+    this.data.firstName = name;
+  }
+
+  getLastName(): string
+  {
+    return this.data.lastName;
+  }
+
+  setLastName(name: string)
+  {
+    this.data.lastName = name;
+  }
+
+  getTitle(): string
+  {
+    return this.data.title;
+  }
+
+  setTitle(name: string)
+  {
+    this.data.title = name;
+  }
+
+  getEmail(): string
+  {
+    return this.data.email;
+  }
+
+  setEmail(mail: string)
+  {
+    this.data.email = mail;
+  }
+
+
+}
+
+
+export class Contract
+{
+  data: ContractData;
+
+  constructor(data: ContractData) {
+    this.data = data;
+  }
+
+}
+
+
+export function createNewContract(product: Product, client: Client)
+{
+  let comps: ContractComponentLinkData[] = [];
+
+  let components = product.getComponents();
+
+  components.forEach((component) => {
+    comps.push({
+      componentID: component.getID(),
+      value: component.getType() == "amount" ? 0 : ""
+    })
+  });
+
+
+  let data: ContractData = {
+    product: product,
+    client: client,
+    id: getRandomId(24),
+    components: comps,
+  }
+
+  return new Contract(data);
 }
 
 

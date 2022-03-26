@@ -2,7 +2,7 @@ import {FC, useState} from "react";
 import React from "react";
 import {ProductComponent} from "../../libs/dataUtils";
 import firebase from "firebase/compat";
-import {Button, MenuItem, Select, TextField} from "@mui/material";
+import {Button, Checkbox, MenuItem, Select, TextField} from "@mui/material";
 
 interface ComponentDisplayProps {
   component: ProductComponent,
@@ -29,6 +29,7 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
   let name = component.getName()
   let type = component.getType();
   let price = component.getPrice();
+  let description = component.getDescription();
   let isChoice = (type === "choice");
 
 
@@ -99,6 +100,17 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
         }}
       />
 
+      <TextField
+        variant={"outlined"}
+        label={"Description"}
+        color={"secondary"}
+        defaultValue={description}
+        onChange={(e) => {
+          component.setDescription(e.target.value);
+          updateParent(component, index);
+        }}
+      />
+
       <Select
         label="Type"
         defaultValue={type}
@@ -126,6 +138,19 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
           updateParent(component, index);
         }}
       />
+
+      <div>
+        <Checkbox
+          color={"secondary"}
+          defaultValue={"" + component.isRequired()}
+          onChange={(e) => {
+            const result = e.target.checked;
+            component.setRequired(result);
+            updateParent(component, index);
+          }}
+        />
+        Required?
+      </div>
 
       {
         isChoice &&

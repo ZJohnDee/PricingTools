@@ -4,7 +4,7 @@ import {Edit} from '@mui/icons-material';
 import {Link} from "react-router-dom";
 
 
-const ComponentProductDashboardDisplay = (props: any) =>
+const ProductDashboardDisplay = (props: any) =>
 {
 
   const product: Product = props.product;
@@ -38,4 +38,4 @@ const ComponentProductDashboardDisplay = (props: any) =>
   )
 }
 
-export default ComponentProductDashboardDisplay;
+export default ProductDashboardDisplay;

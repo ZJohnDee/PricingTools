@@ -1,7 +1,7 @@
 import {FC, useContext, useEffect, useState} from "react";
 import React from "react";
 import {Product, ProductComponent, ProductData, pushProductToFirestore, getProductFromFirestore} from "../../libs/dataUtils";
-import {Button, TextField} from "@mui/material";
+import {Button, Checkbox, TextField} from "@mui/material";
 import ComponentDisplay from "./ComponentDisplay";
 import { UserContext } from "../../libs/context";
 import {useParams} from "react-router-dom";
@@ -32,11 +32,15 @@ const PageAddProduct:FC = () =>
 
     if (tempUser == null) {setFailed(true); return;}
 
+    if (product.getID() == params.productID) return;
+
     getProductFromFirestore(tempUser, params.productID).then((result) => {
       if (result == null) {setFailed(true); return;}
       setProduct(result);
       setProductFetched(true);
       setFailed(false);
+
+      console.log("Data fetched!");
     });
 
   },)
@@ -97,6 +101,18 @@ const PageAddProduct:FC = () =>
           updateProduct();
         }}
       />
+
+
+      <TextField
+        variant={"outlined"}
+        label={"Description"} color={"secondary"}
+        defaultValue={product.getDescription()}
+        onChange={(e) => {
+          product.setDescription(e.target.value);
+          updateProduct();
+        }}
+      />
+
       <div className={"edit-component-sub"}>
         <h3>Components</h3>
 
@@ -131,6 +147,8 @@ const PageAddProduct:FC = () =>
       >
         SAVE
       </Button>
+
+
 
     </div>
   )

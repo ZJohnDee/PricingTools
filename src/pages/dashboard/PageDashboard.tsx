@@ -4,7 +4,7 @@ import {Grid,} from "@mui/material";
 import {jsx} from "@emotion/react";
 import {getAllProductsFromFirestore, getProductFromFirestore, Product} from "../../libs/dataUtils";
 import {auth} from "../../libs/firebase";
-import ComponentProductDashboardDisplay from "./ComponentProductDashboardDisplay";
+import ProductDashboardDisplay from "./ProductDashboardDisplay";
 
 
 const PageDashboard: FC = (props: any) => {
@@ -33,7 +33,7 @@ const PageDashboard: FC = (props: any) => {
 
   for (let i = 0; i<products.length; i++)
   {
-    emProducts.push(<ComponentProductDashboardDisplay product={products[i] as Product}/>)
+    emProducts.push(<ProductDashboardDisplay product={products[i] as Product}/>)
   }
 
 
