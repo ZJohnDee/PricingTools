@@ -30,7 +30,8 @@ interface ContractData
 interface ContractComponentLinkData
 {
   componentID: string,
-  value: string | number
+  value: string | number,
+  inUse: boolean
 }
 
 interface ProductData
@@ -313,6 +314,34 @@ export class Contract
     this.data = data;
   }
 
+
+  /*TODO
+  * Instead of storign contracts to the database in a raw format, unlike products and clients,
+  * we will store it in a form that references both the Product and the Client indirectly.
+  * Additionally, it should store the ContractComponentLinkData in the database.
+  * The get and push methods for a contract should therefore create a new contract based on the data fetched.
+  *
+  *
+  * There should however also be the possibility to 'archive' the contract, which means that its raw data is going to be dumped onto the databsae.
+  * This is so that the user does not need to worry, whether changing product structure will influence old contracts
+  * */
+
+  getProduct(): Product
+  {
+    return this.data.product;
+  }
+
+  getClient(): Client
+  {
+    return this.data.client;
+  }
+
+
+  getComponentLinkData(): ContractComponentLinkData[] | null
+  {
+    return this.data.components;
+  }
+
 }
 
 
@@ -325,7 +354,8 @@ export function createNewContract(product: Product, client: Client)
   components.forEach((component) => {
     comps.push({
       componentID: component.getID(),
-      value: component.getType() == "amount" ? 0 : ""
+      value: component.getType() == "amount" ? 0 : "",
+      inUse: component.isRequired()
     })
   });
 
