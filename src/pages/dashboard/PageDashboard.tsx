@@ -1,30 +1,56 @@
-import {FC} from "react";
+import {FC, useEffect, useState} from "react";
 import "./pageDashboard.css"
 import {Grid,} from "@mui/material";
 import {jsx} from "@emotion/react";
+import {getAllProductsFromFirestore, getProductFromFirestore, Product} from "../../libs/dataUtils";
+import {auth} from "../../libs/firebase";
+import ComponentProductDashboardDisplay from "./ComponentProductDashboardDisplay";
 
 
 const PageDashboard: FC = (props: any) => {
+  const [products, setProducts] = useState([]);
+  const [failed, setFailed] = useState(false);
 
   let emProducts = [];
   let emContracts = [];
   let emCustomers = [];
 
+  useEffect(() => {
+    const tempUser = auth.currentUser;
+    if (tempUser != null)
+      getAllProductsFromFirestore(tempUser).then((result) => {
+        // @ts-ignore
+        setProducts(result);
+      });
+    else setFailed(true);
+  })
+
+
+
+
+
+
+
+  for (let i = 0; i<products.length; i++)
+  {
+    emProducts.push(<ComponentProductDashboardDisplay product={products[i] as Product}/>)
+  }
 
 
 
   return (
-    <div id={"page-dashboard"}>
+    <div className={"page-dashboard"}>
       <h1>Dashboard</h1>
-      <div id={"page-dashboard-sections"}>
-        <div id={"page-dashboard-section page-dashboard-products"}>
-          <h1>Products</h1>
+      <div className={"page-dashboard-sections"}>
+        <div className={"page-dashboard-section edit-component-sub page-dashboard-products"}>
+          <h2>Products</h2>
+          {emProducts}
         </div>
-        <div id={"page-dashboard-section page-dashboard-contracts"}>
-          <h1>Contracts</h1>
+        <div className={"page-dashboard-section edit-component-sub page-dashboard-contracts"}>
+          <h2>Contracts</h2>
         </div>
-        <div id={"page-dashboard-section page-dashboard-customers"}>
-          <h1>Customers</h1>
+        <div className={"page-dashboard-section edit-component-sub page-dashboard-customers"}>
+          <h2>Customers</h2>
         </div>
       </div>
 

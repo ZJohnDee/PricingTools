@@ -1,9 +1,12 @@
-import {FC, useContext, useState} from "react";
+import {FC, useContext, useEffect, useState} from "react";
 import React from "react";
-import {Product, ProductComponent, ProductData, pushProductToFirestore} from "../../libs/dataUtils";
+import {Product, ProductComponent, ProductData, pushProductToFirestore, getProductFromFirestore} from "../../libs/dataUtils";
 import {Button, TextField} from "@mui/material";
 import ComponentDisplay from "./ComponentDisplay";
 import { UserContext } from "../../libs/context";
+import {useParams} from "react-router-dom";
+
+import {auth} from "../../libs/firebase";
 
 
 
@@ -12,9 +15,31 @@ const PageAddProduct:FC = () =>
 {
   const [product, setProduct] = useState(new Product());
   const [ticks, setTicks] = useState(0);
+  const [productFetched, setProductFetched] = useState(false); //When a product is being edited instead of added, this will be used to determine, wether the whole page should be rendered
+  const [failed, setFailed] = useState(false);
 
-  const {user} = useContext(UserContext); 
+  const {user} = useContext(UserContext);
+  const params = useParams();
 
+
+
+  useEffect(() => {
+    setFailed(false);
+    if (!params) {setFailed(true); return;}
+    if (!params.productID) {setFailed(true); return;}
+
+    const tempUser = auth.currentUser;
+
+    if (tempUser == null) {setFailed(true); return;}
+
+    getProductFromFirestore(tempUser, params.productID).then((result) => {
+      if (result == null) {setFailed(true); return;}
+      setProduct(result);
+      setProductFetched(true);
+      setFailed(false);
+    });
+
+  },)
 
   let emComponents = [];
   let components: ProductComponent[] = product.getComponents();
@@ -50,7 +75,15 @@ const PageAddProduct:FC = () =>
     updateProduct();
   }
 
+  if (failed)
+  {
+    return <h1>Error, fetching product</h1>
+  }
 
+  if (params.productID && !productFetched)
+  {
+    return <h1>Loading...</h1>
+  }
 
 
   return(

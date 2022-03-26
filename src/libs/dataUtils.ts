@@ -170,7 +170,7 @@ export class ProductComponent {
 
 export async function getProductFromFirestore(user: any, id: string) : Promise<Product | null>
 {
-  const ref = firestore.doc(user.uid).collection("products").doc(id);
+  const ref = firestore.collection("users").doc(user.uid).collection("products").doc(id);
 
   if (ref)
   {
@@ -190,8 +190,20 @@ export async function pushProductToFirestore(user: any, product: Product)
 
   let ref = firestore.collection("users").doc(user.uid).collection("products").doc(id);
 
-  ref.set(product.data);
+  await ref.set(product.data);
 
+}
+
+export async function getAllProductsFromFirestore(user: any): Promise<Product[]>
+{
+  let ref = firestore.collection("users").doc(user.uid).collection("products");
+  let result = await ref.get();
+
+  let data = result.docs.map((doc) => {return doc.data()})
+
+  let products = data.map((d) => new Product(d as ProductData));
+
+  return products;
 }
 
 

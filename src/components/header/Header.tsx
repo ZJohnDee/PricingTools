@@ -1,14 +1,16 @@
-import {FC} from "react";
+import {FC, useContext} from "react";
 
 import React from "react";
 import {Button} from "@mui/material";
 
 import "./header.css";
+import {UserContext} from "../../libs/context";
 
 const Header:FC = (props) =>
 {
 
-  let loggedIn = false;
+  const {user} = useContext(UserContext);
+  let loggedIn = user != null;
 
   return (
     <div className={"header"}>
@@ -30,7 +32,13 @@ const Header:FC = (props) =>
         }
 
         {
-          loggedIn
+          <Button
+            variant={"contained"}
+            color={"secondary"}
+            href={"/dashboard"}
+          >
+            Dashboard
+          </Button>
         }
 
 

@@ -23,6 +23,7 @@ code {
 .edit-component
 {
   margin: 20px;
+  border-radius: 5px;
 }
 
 .edit-component-sub
@@ -31,5 +32,6 @@ code {
   margin-top: 15px;
   padding: 10px;
   box-shadow: 0 1px 7px #aaaaaa;
+  border-radius: 5px;
 
 }

@@ -43,6 +43,7 @@ function App() {
                         <Route path={"/login"} element={<PageLogin/>}/>
                         <Route path={"/dashboard"} element={<PageDashboard/>}/>
                         <Route path={"/add/product"} element={<PageAddProduct/>}/>
+                        <Route path={"/edit/product/:productID"} element={<PageAddProduct/>}/>
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>
