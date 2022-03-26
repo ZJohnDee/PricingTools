@@ -233,49 +233,12 @@ export class ProductComponent {
 }
 
 
-export async function getProductFromFirestore(user: any, id: string) : Promise<Product | null>
-{
-  const ref = firestore.collection("users").doc(user.uid).collection("products").doc(id);
-
-  if (ref)
-  {
-    let snap = await ref.get();
-    let product = new Product((snap.data() as ProductData));
-
-    return product;
-  }
-
-  return null;
-}
-
-
-export async function pushProductToFirestore(user: any, product: Product)
-{
-  const id = product.getID();
-
-  let ref = firestore.collection("users").doc(user.uid).collection("products").doc(id);
-
-  await ref.set(product.data);
-
-}
-
-export async function getAllProductsFromFirestore(user: any): Promise<Product[]>
-{
-  let ref = firestore.collection("users").doc(user.uid).collection("products");
-  let result = await ref.get();
-
-  let data = result.docs.map((doc) => {return doc.data()})
-
-  let products = data.map((d) => new Product(d as ProductData));
-
-  return products;
-}
 
 export class Client
 {
   data: ClientData;
 
-  constructor(data=null)
+  constructor(data: ClientData | null = null)
   {
     if (data == null)
     {
@@ -333,6 +296,11 @@ export class Client
     this.data.email = mail;
   }
 
+  getID() : string
+  {
+    return this.data.id;
+  }
+
 
 }
 
@@ -372,6 +340,86 @@ export function createNewContract(product: Product, client: Client)
   return new Contract(data);
 }
 
+
+
+
+
+
+
+export async function getAllProductsFromFirestore(user: any): Promise<Product[]>
+{
+  let ref = firestore.collection("users").doc(user.uid).collection("products");
+  let result = await ref.get();
+
+  let data = result.docs.map((doc) => {return doc.data()})
+
+  let products = data.map((d) => new Product(d as ProductData));
+
+  return products;
+}
+
+export async function getProductFromFirestore(user: any, id: string) : Promise<Product | null>
+{
+  const ref = firestore.collection("users").doc(user.uid).collection("products").doc(id);
+
+  if (ref)
+  {
+    let snap = await ref.get();
+    let product = new Product((snap.data() as ProductData));
+
+    return product;
+  }
+
+  return null;
+}
+
+
+export async function pushProductToFirestore(user: any, product: Product)
+{
+  const id = product.getID();
+
+  let ref = firestore.collection("users").doc(user.uid).collection("products").doc(id);
+
+  await ref.set(product.data);
+
+}
+
+export async function pushClientToFirestore(user: any, client: Client)
+{
+  const id: string = client.getID();
+
+  let ref = firestore.collection("users").doc(user.uid).collection("clients").doc(id);
+
+  await ref.set(client.data);
+}
+
+export async function getAllClientsFromFirestore(user: any): Promise<Client[]>
+{
+  let ref = firestore.collection("users").doc(user.uid).collection("clients");
+  let result = await ref.get();
+
+  let data = result.docs.map((doc) => {return doc.data()})
+
+  let clients = data.map((d) => new Client(d as ClientData));
+
+  return clients;
+}
+
+export async function getClientFromFirestore(user: any, id: string) : Promise<Client | null>
+{
+  const ref = firestore.collection("users").doc(user.uid).collection("clients").doc(id);
+
+  if (ref)
+  {
+    let snap = await ref.get();
+
+    let client = new Client((snap.data() as ClientData));
+
+    return client;
+  }
+
+  return null;
+}
 
 
 

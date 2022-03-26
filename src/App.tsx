@@ -10,6 +10,7 @@ import {UserContext} from "./libs/context";
 import {useUserData} from "./libs/hooks";
 import PageDashboard from "./pages/dashboard/PageDashboard";
 import PageAddProduct from "./pages/add_product/PageAddProduct";
+import PageAddClient from "./pages/add_client/PageAddClient";
 
 const themeOptions = {
     palette: {
@@ -43,7 +44,9 @@ function App() {
                         <Route path={"/login"} element={<PageLogin/>}/>
                         <Route path={"/dashboard"} element={<PageDashboard/>}/>
                         <Route path={"/add/product"} element={<PageAddProduct/>}/>
+                        <Route path={"/add/client"} element={<PageAddClient/>}/>
                         <Route path={"/edit/product/:productID"} element={<PageAddProduct/>}/>
+                        <Route path={"/edit/client/:clientID"} element={<PageAddClient/>}/>
                     </Routes>
                 </BrowserRouter>
             </ThemeProvider>

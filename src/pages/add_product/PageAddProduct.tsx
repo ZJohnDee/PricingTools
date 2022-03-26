@@ -16,7 +16,6 @@ const PageAddProduct:FC = () =>
   const [product, setProduct] = useState(new Product());
   const [ticks, setTicks] = useState(0);
   const [productFetched, setProductFetched] = useState(false); //When a product is being edited instead of added, this will be used to determine, wether the whole page should be rendered
-  const [failed, setFailed] = useState(false);
 
   const {user} = useContext(UserContext);
   const params = useParams();
@@ -24,22 +23,20 @@ const PageAddProduct:FC = () =>
 
 
   useEffect(() => {
-    setFailed(false);
-    if (!params) {setFailed(true); return;}
-    if (!params.productID) {setFailed(true); return;}
+
+    if (!params) return;
+    if (!params.productID) return;
 
     const tempUser = auth.currentUser;
 
-    if (tempUser == null) {setFailed(true); return;}
+    if (tempUser == null) return;
 
     if (product.getID() == params.productID) return;
 
     getProductFromFirestore(tempUser, params.productID).then((result) => {
-      if (result == null) {setFailed(true); return;}
+      if (result == null) return;
       setProduct(result);
       setProductFetched(true);
-      setFailed(false);
-
       console.log("Data fetched!");
     });
 
@@ -77,11 +74,6 @@ const PageAddProduct:FC = () =>
   {
     product.addEmptyComponent();
     updateProduct();
-  }
-
-  if (failed)
-  {
-    return <h1>Error, fetching product</h1>
   }
 
   if (params.productID && !productFetched)

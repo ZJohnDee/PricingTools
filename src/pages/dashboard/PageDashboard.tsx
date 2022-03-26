@@ -2,13 +2,21 @@ import {FC, useEffect, useState} from "react";
 import "./pageDashboard.css"
 import {Grid,} from "@mui/material";
 import {jsx} from "@emotion/react";
-import {getAllProductsFromFirestore, getProductFromFirestore, Product} from "../../libs/dataUtils";
+import {
+  Client,
+  getAllClientsFromFirestore,
+  getAllProductsFromFirestore,
+  getProductFromFirestore,
+  Product
+} from "../../libs/dataUtils";
 import {auth} from "../../libs/firebase";
 import ProductDashboardDisplay from "./ProductDashboardDisplay";
+import ClientDashboardDisplay from "./ClientDashboardDisplay";
 
 
 const PageDashboard: FC = (props: any) => {
   const [products, setProducts] = useState([]);
+  const [clients, setClients] = useState([]);
   const [failed, setFailed] = useState(false);
 
   let emProducts = [];
@@ -18,22 +26,31 @@ const PageDashboard: FC = (props: any) => {
   useEffect(() => {
     const tempUser = auth.currentUser;
     if (tempUser != null)
+    {
       getAllProductsFromFirestore(tempUser).then((result) => {
         // @ts-ignore
         setProducts(result);
       });
+
+
+      getAllClientsFromFirestore(tempUser).then((result) => {
+        // @ts-ignore
+        setClients(result);
+      });
+    }
     else setFailed(true);
   })
-
-
-
-
 
 
 
   for (let i = 0; i<products.length; i++)
   {
     emProducts.push(<ProductDashboardDisplay product={products[i] as Product}/>)
+  }
+
+  for (let i = 0; i<clients.length; i++)
+  {
+    emCustomers.push(<ClientDashboardDisplay client={clients[i] as Client}/>)
   }
 
 
@@ -51,6 +68,7 @@ const PageDashboard: FC = (props: any) => {
         </div>
         <div className={"page-dashboard-section edit-component-sub page-dashboard-customers"}>
           <h2>Customers</h2>
+          {emCustomers}
         </div>
       </div>
 
