@@ -1,7 +1,6 @@
 import {FC, useEffect, useState} from "react";
 import "./pageDashboard.css"
-import {Grid,} from "@mui/material";
-import {jsx} from "@emotion/react";
+import {Button, Grid,} from "@mui/material";
 import {
   Client, Contract,
   getAllClientsFromFirestore, getAllContractsFromFirestore,
@@ -77,7 +76,10 @@ const PageDashboard: FC = (props: any) => {
     emContracts.push(<ContractDashboardDisplay contract={contracts[i] as Contract}/>)
   }
 
-
+  const buttonStyle = {
+    width: "100%",
+    marginTop: "20px"
+  }
 
   return (
     <div className={"page-dashboard"}>
@@ -86,14 +88,20 @@ const PageDashboard: FC = (props: any) => {
         <div className={"page-dashboard-section edit-component-sub page-dashboard-products"}>
           <h2>Products</h2>
           {emProducts}
+          <Button style={buttonStyle} color={"secondary"} variant={"contained"} href={"/add/product"}>Add</Button>
         </div>
         <div className={"page-dashboard-section edit-component-sub page-dashboard-contracts"}>
           <h2>Contracts</h2>
           {emContracts}
+          <Button style={buttonStyle} color={"secondary"} variant={"contained"} href={"/add/contract"}>Add</Button>
         </div>
         <div className={"page-dashboard-section edit-component-sub page-dashboard-customers"}>
           <h2>Customers</h2>
           {emCustomers}
+          <Button style={buttonStyle} color={"secondary"} variant={"contained"} href={"/add/client"}>Add</Button>
+
+
+
         </div>
       </div>
 
