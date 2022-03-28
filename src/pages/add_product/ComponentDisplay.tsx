@@ -142,7 +142,7 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
       <div>
         <Checkbox
           color={"secondary"}
-          defaultValue={"" + component.isRequired()}
+          defaultChecked={component.isRequired()}
           onChange={(e) => {
             const result = e.target.checked;
             component.setRequired(result);

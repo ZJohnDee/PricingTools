@@ -3,8 +3,7 @@ import {firestore} from "./firebase";
 type ProductComponentType = "choice" | "amount" | "addon";
 type ProductComponentPriceType = number | "custom" | "cond";
 
-interface ProductComponentData
-{
+interface ProductComponentData {
   name: string,
   type: ProductComponentType,
   price: ProductComponentPriceType,
@@ -19,31 +18,35 @@ interface ProductComponentData
     }[]
 }
 
-interface ContractData
-{
+interface ContractData {
   product: Product,
   client: Client,
   id: string,
   components: ContractComponentLinkData[]
 }
 
-interface ContractComponentLinkData
-{
+interface ContractComponentLinkData {
   componentID: string,
   value: string | number,
   inUse: boolean
 }
 
-interface ProductData
+interface ContractFirebaseData
 {
+  productID: string,
+  clientID: string,
+  id: string,
+  components: ContractComponentLinkData[];
+}
+
+interface ProductData {
   productName: string,
   description: string,
   id: string,
   components: ProductComponentData[]
 }
 
-interface ClientData
-{
+interface ClientData {
   firstName: string,
   lastName: string,
   title: string,
@@ -53,13 +56,12 @@ interface ClientData
 
 
 const characters: string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-"
-function getRandomId(length: number = 48) : string
-{
+
+function getRandomId(length: number = 48): string {
   let result = "";
 
-  for (let i = 0; i<length; i++)
-  {
-    let ran = Math.floor(Math.random()*characters.length);
+  for (let i = 0; i < length; i++) {
+    let ran = Math.floor(Math.random() * characters.length);
     result += characters.charAt(ran);
   }
 
@@ -68,8 +70,7 @@ function getRandomId(length: number = 48) : string
 }
 
 
-export class Product
-{
+export class Product {
   data: ProductData;
 
 
@@ -86,19 +87,15 @@ export class Product
   }
 
 
-
-  setProductName(name: string)
-  {
+  setProductName(name: string) {
     this.data.productName = name;
   }
 
-  getProductName(): string
-  {
+  getProductName(): string {
     return this.data.productName;
   }
 
-  addEmptyComponent()
-  {
+  addEmptyComponent() {
     let component: ProductComponentData = {
       name: "New Component",
       description: "Description",
@@ -112,35 +109,44 @@ export class Product
     this.data.components.push(component);
   }
 
-  getComponents(): ProductComponent[]
-  {
+  getComponents(): ProductComponent[] {
     let components = this.data.components; //Raw component data
     return components.map((data) => new ProductComponent(data)); //A new array, but instead of the raw data, we now have the object
   }
 
-  setComponents(components: ProductComponent[])
-  {
+  setComponents(components: ProductComponent[]) {
     let data = components.map((component) => component.getData())
     this.data.components = data;
   }
 
-  setComponent(index: number, component: ProductComponent)
-  {
+  setComponent(index: number, component: ProductComponent) {
     this.data.components[index] = component.getData();
   }
 
-  getID() : string
+  getComponentByID(id: string): {component: ProductComponent, index: number} | null
   {
+    const components = this.getComponents();
+
+    for (let i = 0; i<components.length; i++)
+    {
+      const component = components[i];
+
+      if (component.getID() === id) return {component: component, index: i};
+    }
+
+    return null;
+
+  }
+
+  getID(): string {
     return this.data.id;
   }
 
-  getDescription(): string
-  {
+  getDescription(): string {
     return this.data.description;
   }
 
-  setDescription(description: string)
-  {
+  setDescription(description: string) {
     this.data.description = description;
   }
 }
@@ -180,125 +186,100 @@ export class ProductComponent {
     this.data.name = name;
   }
 
-  getChoices()
-  {
+  getChoices() {
     return this.data.choices;
   }
 
-  setChoices(choices: any)
-  {
+  setChoices(choices: any) {
     this.data.choices = choices;
   }
 
-  addEmptyChoice()
-  {
+  addEmptyChoice() {
     this.data.choices?.push({
       name: "New Choice",
       price: 100,
     })
   }
 
-  setChoice(choice: any, index: number)
-  {
-    if (this.data.choices)
-    {
+  setChoice(choice: any, index: number) {
+    if (this.data.choices) {
       this.data.choices[index] = choice;
     }
   }
 
-  isRequired(): boolean
-  {
+  isRequired(): boolean {
     return this.data.required;
   }
 
-  setRequired(required: boolean)
-  {
+  setRequired(required: boolean) {
     this.data.required = required;
   }
 
-  getDescription(): string
-  {
+  getDescription(): string {
     return this.data.description;
   }
 
-  setDescription(description: string)
-  {
+  setDescription(description: string) {
     this.data.description = description;
   }
 
-  getID(): string
-  {
+  getID(): string {
     return this.data.id;
   }
 
 }
 
 
-
-export class Client
-{
+export class Client {
   data: ClientData;
 
-  constructor(data: ClientData | null = null)
-  {
-    if (data == null)
-    {
-      this.data={
+  constructor(data: ClientData | null = null) {
+    if (data == null) {
+      this.data = {
         id: getRandomId(48),
         firstName: "",
         lastName: "",
         title: "",
         email: ""
       }
-    }
-    else
-    {
+    } else {
       this.data = data;
     }
   }
 
-  getFirstName(): string
-  {
+  getFirstName(): string {
     return this.data.firstName;
   }
 
-  setFirstName(name: string)
-  {
+  setFirstName(name: string) {
     this.data.firstName = name;
   }
 
-  getLastName(): string
-  {
+  getLastName(): string {
     return this.data.lastName;
   }
 
-  setLastName(name: string)
-  {
+  setLastName(name: string) {
     this.data.lastName = name;
   }
 
-  getTitle(): string
-  {
+  getTitle(): string {
     return this.data.title;
   }
 
-  setTitle(name: string)
-  {
+  setTitle(name: string) {
     this.data.title = name;
   }
 
-  getEmail(): string
-  {
+  getEmail(): string {
     return this.data.email;
   }
 
-  setEmail(mail: string)
-  {
+  setEmail(mail: string) {
     this.data.email = mail;
   }
 
-  getID() : string
-  {
+  getID(): string {
     return this.data.id;
   }
 
@@ -306,8 +287,7 @@ export class Client
 }
 
 
-export class Contract
-{
+export class Contract {
   data: ContractData;
 
   constructor(data: ContractData) {
@@ -326,27 +306,36 @@ export class Contract
   * This is so that the user does not need to worry, whether changing product structure will influence old contracts
   * */
 
-  getProduct(): Product
-  {
+  getProduct(): Product {
     return this.data.product;
   }
 
-  getClient(): Client
-  {
+  getClient(): Client {
     return this.data.client;
   }
 
-
-  getComponentLinkData(): ContractComponentLinkData[] | null
+  setComponent(newComp: ContractComponentLinkData, id: string)
   {
+
+  }
+
+
+  setComponentUsed(componentID: string, used: boolean)
+  {
+    const components = this.data.components;
+    components.forEach((cld) => {
+      if (cld.componentID == componentID) cld.inUse = used;
+    });
+  }
+
+  getComponentLinkData(): ContractComponentLinkData[] | null {
     return this.data.components;
   }
 
 }
 
 
-export function createNewContract(product: Product, client: Client)
-{
+export function createNewContract(product: Product, client: Client) {
   let comps: ContractComponentLinkData[] = [];
 
   let components = product.getComponents();
@@ -371,29 +360,23 @@ export function createNewContract(product: Product, client: Client)
 }
 
 
-
-
-
-
-
-export async function getAllProductsFromFirestore(user: any): Promise<Product[]>
-{
+export async function getAllProductsFromFirestore(user: any): Promise<Product[]> {
   let ref = firestore.collection("users").doc(user.uid).collection("products");
   let result = await ref.get();
 
-  let data = result.docs.map((doc) => {return doc.data()})
+  let data = result.docs.map((doc) => {
+    return doc.data()
+  })
 
   let products = data.map((d) => new Product(d as ProductData));
 
   return products;
 }
 
-export async function getProductFromFirestore(user: any, id: string) : Promise<Product | null>
-{
+export async function getProductFromFirestore(user: any, id: string): Promise<Product | null> {
   const ref = firestore.collection("users").doc(user.uid).collection("products").doc(id);
 
-  if (ref)
-  {
+  if (ref) {
     let snap = await ref.get();
     let product = new Product((snap.data() as ProductData));
 
@@ -404,8 +387,7 @@ export async function getProductFromFirestore(user: any, id: string) : Promise<P
 }
 
 
-export async function pushProductToFirestore(user: any, product: Product)
-{
+export async function pushProductToFirestore(user: any, product: Product) {
   const id = product.getID();
 
   let ref = firestore.collection("users").doc(user.uid).collection("products").doc(id);
@@ -414,8 +396,7 @@ export async function pushProductToFirestore(user: any, product: Product)
 
 }
 
-export async function pushClientToFirestore(user: any, client: Client)
-{
+export async function pushClientToFirestore(user: any, client: Client) {
   const id: string = client.getID();
 
   let ref = firestore.collection("users").doc(user.uid).collection("clients").doc(id);
@@ -423,24 +404,23 @@ export async function pushClientToFirestore(user: any, client: Client)
   await ref.set(client.data);
 }
 
-export async function getAllClientsFromFirestore(user: any): Promise<Client[]>
-{
+export async function getAllClientsFromFirestore(user: any): Promise<Client[]> {
   let ref = firestore.collection("users").doc(user.uid).collection("clients");
   let result = await ref.get();
 
-  let data = result.docs.map((doc) => {return doc.data()})
+  let data = result.docs.map((doc) => {
+    return doc.data()
+  })
 
   let clients = data.map((d) => new Client(d as ClientData));
 
   return clients;
 }
 
-export async function getClientFromFirestore(user: any, id: string) : Promise<Client | null>
-{
+export async function getClientFromFirestore(user: any, id: string): Promise<Client | null> {
   const ref = firestore.collection("users").doc(user.uid).collection("clients").doc(id);
 
-  if (ref)
-  {
+  if (ref) {
     let snap = await ref.get();
 
     let client = new Client((snap.data() as ClientData));
@@ -453,4 +433,89 @@ export async function getClientFromFirestore(user: any, id: string) : Promise<Cl
 
 
 
-export type {ProductData, ProductComponentData, ProductComponentType};
+export async function getAllContractsFromFirestore(user: any): Promise<Contract[] | null> {
+  let ref = firestore.collection("users").doc(user.uid).collection("contracts");
+  let result = await ref.get();
+
+  let data = result.docs.map((doc) => {
+    return doc.data()
+  })
+
+
+  let contracts: Contract[] = [];
+  for (let i = 0; i<data.length; i++)
+  {
+    const d = data[i] as ContractFirebaseData;
+
+    contracts.push(await getContractFromContractFirebaseData(d, user));
+
+  }
+
+
+  return contracts;
+}
+
+export async function getContractFromFirestore(user: any, id: string) : Promise<Contract | null>
+{
+  const ref = firestore.collection("users").doc(user.uid).collection("contracts").doc(id);
+
+  if (ref)
+  {
+     let snap = await ref.get();
+
+     let data = snap.data() as ContractFirebaseData;
+
+     return await getContractFromContractFirebaseData(data, user);
+  }
+
+  return null;
+}
+
+export async function pushContractToFirestore(contract: Contract, user: any)
+{
+  const data = mapContractToFirebaseData(contract);
+
+  const id = data.id;
+
+  const ref = firestore.collection("users").doc(user.uid).collection("contracts").doc(id);
+
+  await ref.set(data);
+}
+
+function mapContractToFirebaseData(contract: Contract) : ContractFirebaseData
+{
+  const data: ContractFirebaseData = {
+    id: contract.data.id,
+    productID: contract.data.product.getID(),
+    clientID: contract.data.client.getID(),
+    components: contract.data.components
+  }
+
+  return data;
+}
+
+async function getContractFromContractFirebaseData(data: ContractFirebaseData, user: any)
+{
+  const productID = data.productID;
+  const clientID = data.clientID;
+
+  const components: ContractComponentLinkData[] = data.components;
+  const contractID = data.id;
+
+  const product = await getProductFromFirestore(user, productID) as Product;
+  const client = await getClientFromFirestore(user, clientID) as Client;
+
+  const contractData: ContractData = {
+    product: product,
+    client: client,
+    id: contractID,
+    components: components
+  }
+
+  return new Contract(contractData);
+}
+
+
+
+
+export type {ProductData, ProductComponentData, ProductComponentType, ContractComponentLinkData, ContractData};

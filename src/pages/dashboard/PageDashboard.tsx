@@ -3,8 +3,8 @@ import "./pageDashboard.css"
 import {Grid,} from "@mui/material";
 import {jsx} from "@emotion/react";
 import {
-  Client,
-  getAllClientsFromFirestore,
+  Client, Contract,
+  getAllClientsFromFirestore, getAllContractsFromFirestore,
   getAllProductsFromFirestore,
   getProductFromFirestore,
   Product
@@ -12,12 +12,17 @@ import {
 import {auth} from "../../libs/firebase";
 import ProductDashboardDisplay from "./ProductDashboardDisplay";
 import ClientDashboardDisplay from "./ClientDashboardDisplay";
+import ContractDashboardDisplay from "./ContractDashboardDisplay";
 
 
 const PageDashboard: FC = (props: any) => {
-  const [products, setProducts] = useState([]);
-  const [clients, setClients] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [clients, setClients] = useState<Client[]>([]);
+  const [contracts, setContracts] = useState<Contract[]>([]);
   const [failed, setFailed] = useState(false);
+
+
+  const [loaded, setLoaded] = useState([false, false, false])
 
   let emProducts = [];
   let emContracts = [];
@@ -27,15 +32,29 @@ const PageDashboard: FC = (props: any) => {
     const tempUser = auth.currentUser;
     if (tempUser != null)
     {
+
+      if (!loaded[0])
       getAllProductsFromFirestore(tempUser).then((result) => {
-        // @ts-ignore
         setProducts(result);
+
+        setLoaded(loaded.map((val, index) => {return index == 0}));
       });
 
 
+      if (!loaded[1])
       getAllClientsFromFirestore(tempUser).then((result) => {
-        // @ts-ignore
         setClients(result);
+
+        setLoaded(loaded.map((val, index) => {return index == 1}));
+      });
+
+
+      if (!loaded[2])
+      getAllContractsFromFirestore(tempUser).then((result) =>
+      {
+        setContracts(result as Contract[]);
+
+        setLoaded(loaded.map((val, index) => {return index == 2}));
       });
     }
     else setFailed(true);
@@ -53,6 +72,11 @@ const PageDashboard: FC = (props: any) => {
     emCustomers.push(<ClientDashboardDisplay client={clients[i] as Client}/>)
   }
 
+  for (let i = 0; i<contracts.length; i++)
+  {
+    emContracts.push(<ContractDashboardDisplay contract={contracts[i] as Contract}/>)
+  }
+
 
 
   return (
@@ -65,6 +89,7 @@ const PageDashboard: FC = (props: any) => {
         </div>
         <div className={"page-dashboard-section edit-component-sub page-dashboard-contracts"}>
           <h2>Contracts</h2>
+          {emContracts}
         </div>
         <div className={"page-dashboard-section edit-component-sub page-dashboard-customers"}>
           <h2>Customers</h2>
