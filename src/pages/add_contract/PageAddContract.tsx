@@ -28,15 +28,13 @@ const PageAddContract = () => {
 
     if (userTemp == null) return;
 
-    getContractFromFirestore(userTemp, id as string).then((result) =>
-    {
+    getContractFromFirestore(userTemp, id as string).then((result) => {
       setContract(result as Contract);
     });
 
   })
 
-  if (id != null && contract == null)
-  {
+  if (id != null && contract == null) {
     return <h1>Loading...</h1>
   }
 
@@ -68,6 +66,10 @@ const ContractLoaded = (props: any) => {
   const product = contract.getProduct();
   const client = contract.getClient();
 
+  const styleInputs: any = {
+    minWidth: "200px",
+  }
+
 
   components.forEach((comp) => {
 
@@ -87,6 +89,8 @@ const ContractLoaded = (props: any) => {
             component.getType() === "choice" &&
             <Select
               color={"secondary"}
+              defaultValue={comp.value}
+              style={styleInputs}
               onChange={(e) => {
                 const value = e.target.value as string;
                 comp.value = value;
@@ -105,6 +109,8 @@ const ContractLoaded = (props: any) => {
               color={"secondary"}
               type={"number"}
               variant={"outlined"}
+              defaultValue={comp.value}
+              style={styleInputs}
               onChange={(e) => {
                 const value: number = Number(e.target.value);
 
@@ -120,16 +126,16 @@ const ContractLoaded = (props: any) => {
 
           {
             !component.isRequired() &&
-              <div>
-                <DeleteIcon
-                  onClick={() => {
-                    contract.setComponentUsed(component.getID(), false);
-                    setContract(contract);
+            <div>
+              <DeleteIcon
+                onClick={() => {
+                  contract.setComponentUsed(component.getID(), false);
+                  setContract(contract);
 
-                    repaint();
-                  }}
-                />
-              </div>
+                  repaint();
+                }}
+              />
+            </div>
           }
 
         </div>
@@ -156,8 +162,19 @@ const ContractLoaded = (props: any) => {
 
 
   return (
-    <div>
-      <h2>Contract for {contract.getClient().getTitle() + " " + contract.getClient().getLastName()}</h2>
+    <div
+      style={{
+        display: "flex",
+        flexFlow: "column",
+        alignContent: "center",
+        justifyContent: "center",
+        alignItems: "center",
+
+        marginBottom: "35px"
+      }}
+    >
+      <h2 style={{textAlign: "center"}}>Contract
+        for {contract.getClient().getTitle() + " " + contract.getClient().getLastName()}</h2>
       <div
         className={"edit-component"}
         style={
@@ -171,21 +188,24 @@ const ContractLoaded = (props: any) => {
 
         <div className={"edit-component-sub"}>
           {emActive}
+          <div>{"Price Total: " + contract.getPrice()}</div>
         </div>
 
         <div className={"edit-component-sub"}>
           {emDisabled}
         </div>
 
+      </div>
+
+
+      <div style={{width: "auto"}}>
         <Button
           variant={"contained"}
           color={"secondary"}
-          onClick={() =>
-          {
+          onClick={() => {
             const tempUser = auth.currentUser;
 
-            if (tempUser == null)
-            {
+            if (tempUser == null) {
               console.log("User is null!!!")
               return;
             }
@@ -195,8 +215,9 @@ const ContractLoaded = (props: any) => {
         >
           Save
         </Button>
-
       </div>
+
+
     </div>
   )
 
