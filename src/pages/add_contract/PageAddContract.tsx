@@ -116,6 +116,7 @@ const ContractLoaded = (props: any) => {
             />
           }
 
+          <h5>Price: {contract.getSinglePrice(comp)}</h5>
 
           {
             !component.isRequired() &&

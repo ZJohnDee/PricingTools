@@ -332,6 +332,55 @@ export class Contract {
     return this.data.components;
   }
 
+  getSinglePrice(data: ContractComponentLinkData) : number
+  {
+    if (!data.inUse) return 0;
+
+    const component = this.getProduct().getComponentByID(data.componentID)?.component;
+    const value = data.value;
+
+
+    if (component == null) return 0;
+    if (component.getPrice() == null) return 0;
+
+    switch (component?.getType())
+    {
+      case "choice":
+        const choices = component.getChoices();
+
+        let choice: any = null;
+
+        choices?.forEach((c) => {
+          console.log("Checking choice " + c + " against " + value)
+          if (c.name == value) choice = c;
+        })
+
+        if (choice == null) return 0;
+
+        return choice.price;
+      case "addon":
+        return component.getPrice() as number;
+        break;
+      case "amount":
+        return Number(value)*(component.getPrice() as number);
+        break;
+    }
+  };
+
+  getPrice(): number
+  {
+    let price = 0;
+
+    const data = this.getComponentLinkData();
+
+    data?.forEach((cld) =>
+    {
+      price += this.getSinglePrice(cld);
+    });
+
+    return price;
+  }
+
 }
 
 

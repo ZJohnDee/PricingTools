@@ -99,9 +99,6 @@ const PageDashboard: FC = (props: any) => {
           <h2>Customers</h2>
           {emCustomers}
           <Button style={buttonStyle} color={"secondary"} variant={"contained"} href={"/add/client"}>Add</Button>
-
-
-
         </div>
       </div>
 
