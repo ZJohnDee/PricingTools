@@ -705,6 +705,13 @@ export async function archiveAllFromProduct(product: Product, user: any)
   }
 }
 
+export async function archiveContract(contract: Contract, user: any)
+{
+  contract.makeArchived();
+
+  await pushContractToFirestore(contract, user);
+}
+
 
 
 
