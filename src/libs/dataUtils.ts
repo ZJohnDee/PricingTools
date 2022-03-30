@@ -20,7 +20,10 @@ interface ProductComponentData {
 
 interface ContractData {
   product: Product,
+  description: string,
   client: Client,
+  archived: boolean,
+  amount: number,
   id: string,
   components: ContractComponentLinkData[]
 }
@@ -36,6 +39,20 @@ interface ContractFirebaseData
   productID: string,
   clientID: string,
   id: string,
+  archived: boolean,
+  amount: number,
+  description: string,
+  components: ContractComponentLinkData[];
+}
+
+interface RawContractFirebaseData
+{
+  product: ProductData,
+  client: ClientData,
+  id: string,
+  archived: boolean,
+  amount: number,
+  description: string,
   components: ContractComponentLinkData[];
 }
 
@@ -148,6 +165,17 @@ export class Product {
 
   setDescription(description: string) {
     this.data.description = description;
+  }
+
+  async isBeingUsed(user: any): Promise<boolean>
+  {
+    const contracts: Contract[] = await getAllContractsFromFirestore(user) as Contract[];
+
+    for (const contract of contracts)
+      if (contract.getProduct().getID() === this.getID() && !contract.isArchived()) return true;
+
+
+    return false;
   }
 }
 
@@ -381,6 +409,16 @@ export class Contract {
     return price;
   }
 
+  isArchived(): boolean
+  {
+    return this.data.archived;
+  }
+
+  makeArchived(): void
+  {
+    this.data.archived = true;
+  }
+
 }
 
 
@@ -400,7 +438,10 @@ export function createNewContract(product: Product, client: Client) {
 
   let data: ContractData = {
     product: product,
+    archived: false,
     client: client,
+    description: "Description",
+    amount: 1,
     id: getRandomId(24),
     components: comps,
   }
@@ -496,7 +537,17 @@ export async function getAllContractsFromFirestore(user: any): Promise<Contract[
   {
     const d = data[i] as ContractFirebaseData;
 
-    contracts.push(await getContractFromContractFirebaseData(d, user));
+    if (d.archived)
+    {
+      const rawData = data[i] as RawContractFirebaseData;
+      contracts.push(await getContractFromRawContractFirebaseData(rawData, user));
+    }
+    else
+    {
+      contracts.push(await getContractFromContractFirebaseData(d, user));
+    }
+
+
 
   }
 
@@ -511,8 +562,14 @@ export async function getContractFromFirestore(user: any, id: string) : Promise<
   if (ref)
   {
      let snap = await ref.get();
-
      let data = snap.data() as ContractFirebaseData;
+
+    //If the contract is archived, we can return the raw data:
+    if (data.archived)
+    {
+      const rawData = snap.data() as RawContractFirebaseData;
+      return getContractFromRawContractFirebaseData(rawData, user);
+    }
 
      return await getContractFromContractFirebaseData(data, user);
   }
@@ -520,24 +577,57 @@ export async function getContractFromFirestore(user: any, id: string) : Promise<
   return null;
 }
 
+
 export async function pushContractToFirestore(contract: Contract, user: any)
 {
-  const data = mapContractToFirebaseData(contract);
+  if (contract.isArchived())
+  {
+    await pushRawContractToFirestore(contract, user);
+    return;
+  }
 
+  const data = mapContractToFirebaseData(contract);
+  const id = data.id;
+  const ref = firestore.collection("users").doc(user.uid).collection("contracts").doc(id);
+  await ref.set(data);
+}
+
+export async function pushRawContractToFirestore(contract: Contract, user: any)
+{
+  const data = contract.data;
   const id = data.id;
 
   const ref = firestore.collection("users").doc(user.uid).collection("contracts").doc(id);
-
-  await ref.set(data);
+  await ref.delete(); //Deleting, so that potential "unraw" data is not being added to
+  const toSet = mapContractToRawFirebaseData(contract);
+  await ref.set(toSet);
 }
 
 function mapContractToFirebaseData(contract: Contract) : ContractFirebaseData
 {
   const data: ContractFirebaseData = {
     id: contract.data.id,
+    archived: contract.isArchived(),
     productID: contract.data.product.getID(),
     clientID: contract.data.client.getID(),
-    components: contract.data.components
+    components: contract.data.components,
+    description: contract.data.description,
+    amount: contract.data.amount
+  }
+
+  return data;
+}
+
+function mapContractToRawFirebaseData(contract: Contract) : RawContractFirebaseData
+{
+  const data: RawContractFirebaseData = {
+    id: contract.data.id,
+    archived: contract.isArchived(),
+    product: contract.data.product.data,
+    client: contract.data.client.data,
+    components: contract.data.components,
+    description: contract.data.description,
+    amount: contract.data.amount
   }
 
   return data;
@@ -554,15 +644,67 @@ async function getContractFromContractFirebaseData(data: ContractFirebaseData, u
   const product = await getProductFromFirestore(user, productID) as Product;
   const client = await getClientFromFirestore(user, clientID) as Client;
 
+  let description = data.description;
+  let amount = data.amount;
+
+  if (description == null) description = ""; if (amount == null) amount = 1;
+
   const contractData: ContractData = {
     product: product,
     client: client,
     id: contractID,
+    archived: data.archived,
+    amount: amount,
+    description: description,
     components: components
   }
 
   return new Contract(contractData);
 }
+
+function getContractFromRawContractFirebaseData(data: RawContractFirebaseData, user: any)
+{
+  const product = new Product(data.product);
+  const client = new Client(data.client);
+
+  const components: ContractComponentLinkData[] = data.components;
+  const contractID = data.id;
+
+  let description = data.description;
+  let amount = data.amount;
+
+  if (description == null) description = ""; if (amount == null) amount = 1;
+
+  const contractData: ContractData = {
+    product: product,
+    client: client,
+    id: contractID,
+    archived: data.archived,
+    amount: amount,
+    description: description,
+    components: components
+  }
+
+  return new Contract(contractData);
+}
+
+
+export async function archiveAllFromProduct(product: Product, user: any)
+{
+  const contracts = await getAllContractsFromFirestore(user) as Contract[];
+
+
+  for (const contract of contracts)
+  {
+    if (contract.getProduct().getID() !== product.getID() || contract.isArchived())
+      continue;
+
+    contract.makeArchived();
+
+    await pushContractToFirestore(contract, user);
+  }
+}
+
 
 
 

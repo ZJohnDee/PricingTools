@@ -8,7 +8,7 @@ import {
   getAllProductsFromFirestore, getClientFromFirestore, getContractFromFirestore, getProductFromFirestore,
   Product, ProductComponent, pushContractToFirestore
 } from "../../libs/dataUtils";
-import {Button, MenuItem, Select, TextField} from "@mui/material";
+import {Button, Dialog, MenuItem, Select, TextField} from "@mui/material";
 import {auth} from "../../libs/firebase";
 import {jsx} from "@emotion/react";
 
