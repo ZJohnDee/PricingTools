@@ -19,10 +19,11 @@ import {
   TextField
 } from "@mui/material";
 import ComponentDisplay from "./ComponentDisplay";
-import { UserContext } from "../../libs/context";
+import {LanguageContext, UserContext} from "../../libs/context";
 import {useParams} from "react-router-dom";
 
 import {auth} from "../../libs/firebase";
+import {LanguageProvider} from "../../libs/language";
 
 
 
@@ -38,6 +39,10 @@ const PageAddProduct:FC = () =>
   const params = useParams();
 
   const styleMargin = {margin: "5px"};
+
+
+  const {language} = useContext(LanguageContext);
+  const langProvider = new LanguageProvider(language);
 
 
 
@@ -105,7 +110,7 @@ const PageAddProduct:FC = () =>
     <div className={"edit-component"}>
       <TextField
         variant={"outlined"}
-        label={"Name"} color={"secondary"}
+        label={langProvider.getText("Products.Edit.Name")} color={"secondary"}
         defaultValue={product.getProductName()}
         style={styleMargin}
         onChange={(e) => {
@@ -117,7 +122,7 @@ const PageAddProduct:FC = () =>
 
       <TextField
         variant={"outlined"}
-        label={"Description"} color={"secondary"}
+        label={langProvider.getText("Products.Edit.Description")} color={"secondary"}
         defaultValue={product.getDescription()}
         style={styleMargin}
         onChange={(e) => {
@@ -127,14 +132,14 @@ const PageAddProduct:FC = () =>
       />
 
       <div className={"edit-component-sub"}>
-        <h3>Components</h3>
+        <h3>{langProvider.getText("Products.Edit.Components.Title")}</h3>
 
         <Button
           variant={"contained"}
           color={"secondary"}
           onClick={() => addEmptyComponent()}
         >
-          + Component
+          {langProvider.getText("Products.Edit.AddComponent")}
         </Button>
         {emComponents}
       </div>
@@ -168,7 +173,7 @@ const PageAddProduct:FC = () =>
           })
         }}
       >
-        SAVE
+        {langProvider.getText("Buttons.Save")}
       </Button>
 
 
@@ -179,27 +184,25 @@ const PageAddProduct:FC = () =>
         color={"secondary"}
       >
         <DialogTitle>
-          Saving this might break a few contracts
+          {langProvider.getText("Products.Warning.Title")}
         </DialogTitle>
 
         <DialogContent>
           <DialogContentText>
-            Because some contract depend on this product, saving changes may break these contracts.{"\n"}
-            If you want, you can ARCHIVE these products, which will make their data independet from product and client data.{"\n"}
-            Simply proceeding with the save may break your contract unredeamably.
+            {langProvider.getText("Products.Warning.Message")}
           </DialogContentText>
         </DialogContent>
 
         <DialogActions>
           <Button
-            color={"secondary"}
+            color={"warning"}
             variant="contained"
             onClick={() => {pushProductToFirestore(user, product)}}
           >
-            SAVE ANYWAY
+            {langProvider.getText("Products.Warning.Buttons.SaveAnyway")}
           </Button>
           <Button
-            color={"secondary"}
+            color={"info"}
             variant="contained"
             onClick={() => {
               archiveAllFromProduct(product, user).then(() => {
@@ -210,14 +213,14 @@ const PageAddProduct:FC = () =>
 
             }}
           >
-            ARCHIVE ALL
+            {langProvider.getText("Products.Warning.Buttons.ArchiveAll")}
           </Button>
           <Button
             color={"secondary"}
             variant="contained"
             onClick={() => {setShowWarning(false)}}
           >
-            CANCEL
+            {langProvider.getText("Products.Warning.Buttons.Cancel")}
           </Button>
         </DialogActions>
 

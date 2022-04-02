@@ -1,8 +1,10 @@
-import {FC, useState} from "react";
+import {FC, useContext, useState} from "react";
 import React from "react";
 import {ProductComponent} from "../../libs/dataUtils";
 import firebase from "firebase/compat";
 import {Button, Checkbox, MenuItem, Select, TextField} from "@mui/material";
+import {LanguageContext} from "../../libs/context";
+import {LanguageProvider} from "../../libs/language";
 
 interface ComponentDisplayProps {
   component: ProductComponent,
@@ -14,6 +16,8 @@ interface ComponentDisplayProps {
 const ComponentDisplay = (props: ComponentDisplayProps) => {
   const [updater, setUpdater] = useState(0);
 
+  const {language} = useContext(LanguageContext);
+  const langProvider = new LanguageProvider(language);
 
   const repaint = () => {
     setUpdater(updater + 1);
@@ -52,7 +56,7 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
           <div className={"edit-component-sub"}>
             <TextField
               variant={"outlined"}
-              label={"Name"}
+              label={langProvider.getText("Products.Edit.Name")}
               color={"secondary"}
               defaultValue={choiceName}
               onChange={(e) => {
@@ -63,7 +67,7 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
             />
             <TextField
               variant={"outlined"}
-              label={"Price"}
+              label={langProvider.getText("Products.Edit.Components.Price")}
               color={"secondary"}
               defaultValue={choicePrice}
               type={"number"}
@@ -91,7 +95,7 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
     >
       <TextField
         variant={"outlined"}
-        label={"Name"}
+        label={langProvider.getText("Products.Edit.Name")}
         color={"secondary"}
         defaultValue={name}
         onChange={(e) => {
@@ -102,7 +106,7 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
 
       <TextField
         variant={"outlined"}
-        label={"Description"}
+        label={langProvider.getText("Products.Edit.Description")}
         color={"secondary"}
         defaultValue={description}
         onChange={(e) => {
@@ -112,7 +116,7 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
       />
 
       <Select
-        label="Type"
+        label={langProvider.getText("Products.Edit.Components.Type")}
         defaultValue={type}
         color={"secondary"}
         onChange={(e) => {
@@ -122,17 +126,16 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
           repaint();
         }}
       >
-        <MenuItem value={"choice"}>Choice</MenuItem>
-        <MenuItem value={"amount"}>Amount</MenuItem>
-        <MenuItem value={"addon"}>Add-On</MenuItem>
+        <MenuItem value={"choice"}>{langProvider.getText("Products.Edit.Components.Types.Choice")}</MenuItem>
+        <MenuItem value={"amount"}>{langProvider.getText("Products.Edit.Components.Types.Amount")}</MenuItem>
+        <MenuItem value={"addon"}>{langProvider.getText("Products.Edit.Components.Types.Addon")}</MenuItem>
       </Select>
 
       <TextField
         variant={"outlined"}
-        defaultValue={price}
+        label={langProvider.getText("Products.Edit.Components.Price")}
         type={"number"}
         color={"secondary"}
-        label={"Price"}
         onChange={(e) => {
           component.setPrice(Number(e.target.value));
           updateParent(component, index);
@@ -149,7 +152,7 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
             updateParent(component, index);
           }}
         />
-        Required?
+        {langProvider.getText("Products.Edit.Components.Required")}
       </div>
 
       {
@@ -162,7 +165,7 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
             repaint();
           }}
         >
-          + Choice
+          {langProvider.getText("Products.Edit.Components.AddChoice")}
         </Button>
       }
 

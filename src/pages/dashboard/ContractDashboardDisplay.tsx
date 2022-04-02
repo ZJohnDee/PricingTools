@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Client, Contract, Product} from "../../libs/dataUtils";
 import {Edit} from '@mui/icons-material';
 import {Link} from "react-router-dom";
+import {LanguageContext} from "../../libs/context";
+import {LanguageProvider} from "../../libs/language";
 
 
 const ContractDashboardDisplay = (props: any) =>
@@ -16,6 +18,8 @@ const ContractDashboardDisplay = (props: any) =>
 
   const styleCenter: any = {textAlign: "center"};
 
+  const {language} = useContext(LanguageContext);
+  const langProvider = new LanguageProvider(language);
 
   return (
     <div className={"edit-component-sub"}>
@@ -23,7 +27,7 @@ const ContractDashboardDisplay = (props: any) =>
       <h3 style={styleCenter}>{productName}</h3>
       {
         contract.isArchived() &&
-        <p style={styleCenter}>(archived)</p>
+        <p style={styleCenter}>({langProvider.getText("Dashboard.Contracts.Archived").toLowerCase()})</p>
       }
       <Edit onClick={() => {
         window.location.assign("/edit/contract/" + contract.data.id);

@@ -1,4 +1,4 @@
-import {Component, useEffect, useState} from "react";
+import {Component, useContext, useEffect, useState} from "react";
 import React from "react";
 import {
   Client,
@@ -14,6 +14,8 @@ import {jsx} from "@emotion/react";
 
 import {Delete as DeleteIcon, Add as AddIcon} from '@mui/icons-material';
 import {useParams} from "react-router-dom";
+import {LanguageContext} from "../../libs/context";
+import {LanguageProvider} from "../../libs/language";
 
 const PageAddContract = () => {
   const [contract, setContract] = useState<Contract | null>(null);
@@ -70,6 +72,9 @@ const ContractLoaded = (props: any) => {
     minWidth: "200px",
   }
 
+  const {language} = useContext(LanguageContext);
+  const langProvider = new LanguageProvider(language);
+
 
   components.forEach((comp) => {
 
@@ -122,7 +127,7 @@ const ContractLoaded = (props: any) => {
             />
           }
 
-          <h5>Price: {contract.getSinglePrice(comp)}</h5>
+          <h5>{langProvider.getText("Contracts.Edit.Price")}: {contract.getSinglePrice(comp)}</h5>
 
           {
             !component.isRequired() &&
@@ -173,8 +178,9 @@ const ContractLoaded = (props: any) => {
         marginBottom: "35px"
       }}
     >
-      <h2 style={{textAlign: "center"}}>Contract
-        for {contract.getClient().getTitle() + " " + contract.getClient().getLastName()}</h2>
+      <h2 style={{textAlign: "center"}}>
+        {langProvider.getText("Contracts.Edit.Title").replace("%name", contract.getClient().getTitle() + " " + contract.getClient().getLastName())}
+      </h2>
       <div
         className={"edit-component"}
         style={
@@ -188,7 +194,7 @@ const ContractLoaded = (props: any) => {
 
         <div className={"edit-component-sub"}>
           {emActive}
-          <div>{"Price Total: " + contract.getPrice()}</div>
+          <div>{langProvider.getText("Contracts.Edit.PriceTotal") + ": " + contract.getPrice()}</div>
         </div>
 
         <div className={"edit-component-sub"}>
@@ -213,7 +219,7 @@ const ContractLoaded = (props: any) => {
             pushContractToFirestore(contract, tempUser);
           }}
         >
-          Save
+          {langProvider.getText("Buttons.Save")}
         </Button>
       </div>
 
@@ -245,6 +251,9 @@ const CreateNewContract = (props: any) => {
 
   const [productsLoaded, setProductsLoaded] = useState(false);
   const [clientsLoaded, setClientsLoaded] = useState(false);
+
+  const {language} = useContext(LanguageContext);
+  const langProvider = new LanguageProvider(language);
 
   const repaint = () => {
     setUpdater(updater + 1);
@@ -313,7 +322,7 @@ const CreateNewContract = (props: any) => {
 
   return (
     <div>
-      <h1>Create Contract</h1>
+      <h1>{langProvider.getText("Contracts.Create.Title")}</h1>
 
       <div style={{
         display: "flex",
@@ -361,7 +370,7 @@ const CreateNewContract = (props: any) => {
           style={{margin: "15px"}}
           onClick={() => createContract()}
         >
-          Create
+          {langProvider.getText("Buttons.Create")}
         </Button>
       </div>
 

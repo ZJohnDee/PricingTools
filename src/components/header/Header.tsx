@@ -4,13 +4,17 @@ import React from "react";
 import {Button} from "@mui/material";
 
 import "./header.css";
-import {UserContext} from "../../libs/context";
+import {LanguageContext, UserContext} from "../../libs/context";
+import {LanguageProvider} from "../../libs/language";
 
 const Header:FC = (props) =>
 {
 
   const {user} = useContext(UserContext);
   let loggedIn = user != null;
+
+  const {language} = useContext(LanguageContext);
+  const langProvider = new LanguageProvider(language);
 
   return (
     <div className={"header"}>
@@ -27,17 +31,18 @@ const Header:FC = (props) =>
             color={"secondary"}
             href={"/login"}
           >
-            Login
+            {langProvider.getText("Buttons.Login")}
           </Button>
         }
 
         {
+          loggedIn &&
           <Button
             variant={"contained"}
             color={"secondary"}
             href={"/dashboard"}
           >
-            Dashboard
+            {langProvider.getText("Buttons.Dashboard")}
           </Button>
         }
 

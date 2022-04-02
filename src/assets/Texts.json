@@ -1,10 +1,188 @@
 {
-  "ButtonLogin": {
-    "de":"Login",
-    "en":"Login"
+  "Buttons": {
+    "Dashboard": {
+      "de": "Dashboard",
+      "en": "Dashboard"
+    },
+    "Login": {
+      "de": "Login",
+      "en": "Login"
+    },
+    "Save": {
+      "de": "Speichern",
+      "en": "Save"
+    },
+    "Add": {
+      "de": "Hinzufügen",
+      "en": "ADD"
+    },
+    "Create": {
+      "de": "Erstellen",
+      "en": "Create"
+    }
   },
-  "ButtonDashboard": {
-    "de":"Dashboard",
-    "en":"Dashboard"
+
+
+  "Products": {
+    "Edit": {
+      "Name": {
+        "de": "Name",
+        "en": "Name"
+      },
+
+      "Description": {
+        "de": "Beschreibung",
+        "en": "Description"
+      },
+
+      "Components": {
+        "Title": {
+          "de": "Komponente",
+          "en": "Components"
+        },
+
+        "Name": {
+          "de": "Name",
+          "en": "Name"
+        },
+
+        "Description": {
+          "de": "Beschreibung",
+          "en": "Description"
+        },
+
+        "Type": {
+          "de": "Art",
+          "en": "Type"
+        },
+
+        "Types": {
+          "Addon": {
+            "de": "Erweiterung",
+            "en": "Add-On"
+          },
+
+          "Amount":{
+            "de": "Anzahl",
+            "en": "Amount"
+          },
+
+          "Choice": {
+            "de": "Optionen",
+            "en": "Choice"
+          }
+        },
+
+        "Required": {
+          "de": "Benötigt?",
+          "en": "Required?"
+        },
+
+        "Price": {
+          "de": "Preis",
+          "en": "Price"
+        },
+
+        "AddChoice": {
+          "de": "+ Option",
+          "en": "+ Choice"
+        }
+      },
+      "AddComponent": {
+        "de": "+ Komponente",
+        "en": "+ Component"
+      }
+    },
+
+    "Warning": {
+      "Title": {
+        "en": "Saving this might break a few contracts",
+        "de": "Speichern kann einige Verträge unbenutzbar machen"
+      },
+      "Message": {
+        "de": "Weil manche Verträge auf die Daten dieses Produktes zurückgreifen, kann es sein, dass eine Speicherung dieses Produktes dazu führen kann, dass diese Verträge unbrauchbar werden. Wenn Sie möchten, können Sie die betroffenen Verträge ARCHIVIEREN, wodurch deren Daten unabhänbgig von den Daten der Produkte und Kunden werden. Einfach zu speichern könnte dazu führen, dass Ihre Verträge unwiederruflich unbenutzbar werden.",
+        "en": "Because some contract depend on this product, saving changes may break these contracts. If you want, you can ARCHIVE these contracts, which will make their data independet from product and client data. Simply proceeding with the save may break your contract unredeamably."
+      },
+
+      "Buttons": {
+        "SaveAnyway": {
+          "en": "Save Anyway",
+          "de": "Trotzdem Speichern"
+        },
+        "ArchiveAll": {
+          "en": "Archive All",
+          "de": "Alle Archivieren"
+        },
+        "Cancel": {
+          "de": "Abbrechen",
+          "en": "Cancel"
+        }
+      }
+    }
+  },
+
+  "Contracts": {
+    "Edit": {
+      "Title": {
+        "de": "Vertrag für %name",
+        "en": "Contract for %name"
+      },
+
+      "Price": {
+        "de": "Preis",
+        "en": "Price"
+      },
+
+      "PriceTotal": {
+        "de": "Preis Gesamt",
+        "en": "Price Total"
+      }
+    },
+
+
+    "Create": {
+      "Title": {
+        "de": "Vertrag Erstellen",
+        "en": "Create Contract"
+      }
+    }
+  },
+
+
+  "Dashboard": {
+    "Title": {
+      "de": "Dashboard",
+      "en": "Dashboard"
+    },
+
+    "Products": {
+      "Title": {
+        "de": "Produkte",
+        "en": "Products"
+      },
+      "Components": {
+        "en": "Components",
+        "de": "Komponente"
+      }
+    },
+
+    "Contracts": {
+      "Title": {
+        "de": "Verträge",
+        "en": "Contracts"
+      },
+      "Archived": {
+        "de": "Archiviert",
+        "en": "Archived"
+      }
+    },
+
+    "Clients": {
+      "Title": {
+        "de": "Kunden",
+        "en": "Clients"
+      }
+    }
+
   }
 }

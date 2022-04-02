@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from "react";
+import {FC, useContext, useEffect, useState} from "react";
 import "./pageDashboard.css"
 import {Button, Grid,} from "@mui/material";
 import {
@@ -12,6 +12,8 @@ import {auth} from "../../libs/firebase";
 import ProductDashboardDisplay from "./ProductDashboardDisplay";
 import ClientDashboardDisplay from "./ClientDashboardDisplay";
 import ContractDashboardDisplay from "./ContractDashboardDisplay";
+import {LanguageContext} from "../../libs/context";
+import {LanguageProvider} from "../../libs/language";
 
 
 const PageDashboard: FC = (props: any) => {
@@ -26,6 +28,9 @@ const PageDashboard: FC = (props: any) => {
   let emProducts = [];
   let emContracts = [];
   let emCustomers = [];
+
+  const {language} = useContext(LanguageContext);
+  const langProvider = new LanguageProvider(language);
 
   useEffect(() => {
     const tempUser = auth.currentUser;
@@ -83,22 +88,22 @@ const PageDashboard: FC = (props: any) => {
 
   return (
     <div className={"page-dashboard"}>
-      <h1>Dashboard</h1>
+      <h1>{langProvider.getText("Dashboard.Title")}</h1>
       <div className={"page-dashboard-sections"}>
         <div className={"page-dashboard-section edit-component-sub page-dashboard-products"}>
-          <h2>Products</h2>
+          <h2>{langProvider.getText("Dashboard.Products.Title")}</h2>
           {emProducts}
-          <Button style={buttonStyle} color={"secondary"} variant={"contained"} href={"/add/product"}>Add</Button>
+          <Button style={buttonStyle} color={"secondary"} variant={"contained"} href={"/add/product"}>{langProvider.getText("Buttons.Add")}</Button>
         </div>
         <div className={"page-dashboard-section edit-component-sub page-dashboard-contracts"}>
-          <h2>Contracts</h2>
+          <h2>{langProvider.getText("Dashboard.Contracts.Title")}</h2>
           {emContracts}
-          <Button style={buttonStyle} color={"secondary"} variant={"contained"} href={"/add/contract"}>Add</Button>
+          <Button style={buttonStyle} color={"secondary"} variant={"contained"} href={"/add/contract"}>{langProvider.getText("Buttons.Add")}</Button>
         </div>
         <div className={"page-dashboard-section edit-component-sub page-dashboard-customers"}>
-          <h2>Customers</h2>
+          <h2>{langProvider.getText("Dashboard.Clients.Title")}</h2>
           {emCustomers}
-          <Button style={buttonStyle} color={"secondary"} variant={"contained"} href={"/add/client"}>Add</Button>
+          <Button style={buttonStyle} color={"secondary"} variant={"contained"} href={"/add/client"}>{langProvider.getText("Buttons.Add")}</Button>
         </div>
       </div>
 
