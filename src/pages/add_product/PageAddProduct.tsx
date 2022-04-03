@@ -6,7 +6,7 @@ import {
   ProductData,
   pushProductToFirestore,
   getProductFromFirestore,
-  archiveAllFromProduct
+  archiveAllFromItem
 } from "../../libs/dataUtils";
 import {
   Button,
@@ -205,7 +205,7 @@ const PageAddProduct:FC = () =>
             color={"info"}
             variant="contained"
             onClick={() => {
-              archiveAllFromProduct(product, user).then(() => {
+              archiveAllFromItem(product, user).then(() => {
                 pushProductToFirestore(user, product).then(() => {
                   setShowWarning(false);
                 });

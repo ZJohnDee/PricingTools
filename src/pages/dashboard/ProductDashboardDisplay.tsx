@@ -4,6 +4,7 @@ import {Edit} from '@mui/icons-material';
 import {Link} from "react-router-dom";
 import {LanguageContext} from "../../libs/context";
 import {LanguageProvider} from "../../libs/language";
+import DeleteAndEdit from "./DeleteAndEdit";
 
 
 const ProductDashboardDisplay = (props: any) =>
@@ -36,9 +37,8 @@ const ProductDashboardDisplay = (props: any) =>
       <h4>{langProvider.getText("Dashboard.Products.Components")}</h4>
       {emComponents}
 
-      <Edit onClick={() => {
-        window.location.assign("/edit/product/" + product.getID());
-      }}/>
+
+      <DeleteAndEdit toDelete={product} editLink={"eidt/product/" + product.getID()}/>
     </div>
   )
 }

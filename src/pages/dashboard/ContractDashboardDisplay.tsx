@@ -1,9 +1,10 @@
 import React, {useContext} from "react";
 import {Client, Contract, Product} from "../../libs/dataUtils";
-import {Edit} from '@mui/icons-material';
+import {Edit, Delete} from '@mui/icons-material';
 import {Link} from "react-router-dom";
 import {LanguageContext} from "../../libs/context";
 import {LanguageProvider} from "../../libs/language";
+import DeleteAndEdit from "./DeleteAndEdit";
 
 
 const ContractDashboardDisplay = (props: any) =>
@@ -29,9 +30,9 @@ const ContractDashboardDisplay = (props: any) =>
         contract.isArchived() &&
         <p style={styleCenter}>({langProvider.getText("Dashboard.Contracts.Archived").toLowerCase()})</p>
       }
-      <Edit onClick={() => {
-        window.location.assign("/edit/contract/" + contract.data.id);
-      }}/>
+
+      <DeleteAndEdit toDelete={contract} editLink={"/edit/contract/" + contract.getID()}/>
+
     </div>
   )
 }

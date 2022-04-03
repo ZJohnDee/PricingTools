@@ -182,6 +182,56 @@
         "de": "Kunden",
         "en": "Clients"
       }
+    },
+
+    "Delete": {
+      "Title": {
+        "de": "Bestätigen Sie Löschung des Elements",
+        "en": "Confirm Deleting of Item"
+      },
+
+      "Description": {
+        "de": "Löschungen sind unwiderruflich. Sind Sie sich also sicher, dass Sie das wirklich machen wollen?",
+        "en": "Deleted items cannot be restored. Are you sure that you want to do this?"
+      },
+
+      "Buttons": {
+        "Delete": {
+          "de": "Löschen",
+          "en": "Delete"
+        },
+
+        "Cancel": {
+          "de": "Abbrechen",
+          "en": "Cancel"
+        }
+      }
+    },
+
+    "DeleteArchive": {
+      "Title": {
+        "en": "Deleting this might break a few contracts",
+        "de": "Löschung kann einige Verträge unbenutzbar machen"
+      },
+      "Message": {
+        "de": "Weil manche Verträge auf die Daten dieses Elements zurückgreifen, kann es sein, dass eine Löschung dieses Elements dazu führen kann, dass diese Verträge unbrauchbar werden. Wenn Sie möchten, können Sie die betroffenen Verträge ARCHIVIEREN, wodurch deren Daten unabhänbgig von den Daten der Produkte und Kunden werden. Einfach zu löschen, könnte dazu führen, dass Ihre Verträge unwiderruflich unbenutzbar werden.",
+        "en": "Because some contract depend on this item, deleting may break these contracts. If you want, you can ARCHIVE these contracts, which will make their data independet from product and client data. Simply proceeding with the delete may break your contracts unredeamably."
+      },
+
+      "Buttons": {
+        "DeleteAnyway": {
+          "en": "Delete Anyway",
+          "de": "Trotzdem Löschen"
+        },
+        "ArchiveAll": {
+          "en": "Archive All & Delete",
+          "de": "Alle Archivieren & Löschen"
+        },
+        "Cancel": {
+          "de": "Abbrechen",
+          "en": "Cancel"
+        }
+      }
     }
 
   }

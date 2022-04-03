@@ -1,4 +1,5 @@
 import {firestore} from "./firebase";
+import firebase from "firebase/compat";
 
 type ProductComponentType = "choice" | "amount" | "addon";
 type ProductComponentPriceType = number | "custom" | "cond";
@@ -311,6 +312,17 @@ export class Client {
     return this.data.id;
   }
 
+  async isBeingUsed(user: any): Promise<boolean>
+  {
+    const contracts: Contract[] = await getAllContractsFromFirestore(user) as Contract[];
+
+    for (const contract of contracts)
+      if (contract.getClient().getID() === this.getID() && !contract.isArchived()) return true;
+
+
+    return false;
+  }
+
 
 }
 
@@ -417,6 +429,11 @@ export class Contract {
   makeArchived(): void
   {
     this.data.archived = true;
+  }
+
+  getID(): string
+  {
+    return this.data.id;
   }
 
 }
@@ -689,14 +706,17 @@ function getContractFromRawContractFirebaseData(data: RawContractFirebaseData, u
 }
 
 
-export async function archiveAllFromProduct(product: Product, user: any)
+export async function archiveAllFromItem(what: Product | Client, user: any)
 {
   const contracts = await getAllContractsFromFirestore(user) as Contract[];
 
+  const id = what.getID();
 
   for (const contract of contracts)
   {
-    if (contract.getProduct().getID() !== product.getID() || contract.isArchived())
+    const compID = (what instanceof Product ? contract.getProduct().getID() : contract.getClient().getID());
+
+    if (compID !== id || contract.isArchived())
       continue;
 
     contract.makeArchived();
@@ -712,6 +732,34 @@ export async function archiveContract(contract: Contract, user: any)
   await pushContractToFirestore(contract, user);
 }
 
+
+export async function deleteFromFirestore(what: Contract | Product | Client, user: any)
+{
+  const usrDoc = firestore.collection("users").doc(user.uid);
+  let ref: any | null = null;
+
+  if (what instanceof Contract)
+  {
+    const contract = (what as unknown) as Contract;
+    ref = usrDoc.collection("contracts").doc(contract.getID());
+
+  }
+
+  else if (what instanceof Product)
+  {
+    const product = (what as unknown) as Product;
+    ref = usrDoc.collection("products").doc(product.getID());
+  }
+
+  else if (what instanceof Client)
+  {
+    const client = (what as unknown) as Client;
+    ref = usrDoc.collection("clients").doc(client.getID());
+  }
+
+  if (ref != null)
+    await ref.delete();
+}
 
 
 
