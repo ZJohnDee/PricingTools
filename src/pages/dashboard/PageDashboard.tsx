@@ -1,6 +1,6 @@
-import {FC, useContext, useEffect, useState} from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import "./pageDashboard.css"
-import {Button, Grid,} from "@mui/material";
+import { Button, Grid, } from "@mui/material";
 import {
   Client, Contract,
   getAllClientsFromFirestore, getAllContractsFromFirestore,
@@ -8,12 +8,12 @@ import {
   getProductFromFirestore,
   Product
 } from "../../libs/dataUtils";
-import {auth} from "../../libs/firebase";
+import { auth } from "../../libs/firebase";
 import ProductDashboardDisplay from "./ProductDashboardDisplay";
 import ClientDashboardDisplay from "./ClientDashboardDisplay";
 import ContractDashboardDisplay from "./ContractDashboardDisplay";
-import {LanguageContext} from "../../libs/context";
-import {LanguageProvider} from "../../libs/language";
+import { LanguageContext } from "../../libs/context";
+import { LanguageProvider } from "../../libs/language";
 
 
 const PageDashboard: FC = (props: any) => {
@@ -21,65 +21,64 @@ const PageDashboard: FC = (props: any) => {
   const [clients, setClients] = useState<Client[]>([]);
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [failed, setFailed] = useState(false);
-
-
   const [loaded, setLoaded] = useState([false, false, false])
 
-  let emProducts = [];
-  let emContracts = [];
-  let emCustomers = [];
+  const [emProducts, setEmProducts] = useState<any[]>([]);
+  const [emContracts, setEmContracts] = useState<any[]>([]);
+  const [emClients, setEmClients] = useState<any[]>([]);
 
-  const {language} = useContext(LanguageContext);
+  const { language } = useContext(LanguageContext);
   const langProvider = new LanguageProvider(language);
 
   useEffect(() => {
     const tempUser = auth.currentUser;
-    if (tempUser != null)
-    {
+    if (tempUser != null) {
 
       if (!loaded[0])
-      getAllProductsFromFirestore(tempUser).then((result) => {
-        setProducts(result);
+        getAllProductsFromFirestore(tempUser).then((result) => {
+          setProducts(result);
 
-        setLoaded(loaded.map((val, index) => {return index == 0}));
-      });
+          setLoaded(loaded.map((val, index) => { if (index == 0) return true; return val; }));
+
+          for (let i = 0; i < products.length; i++) {
+            emProducts.push(<ProductDashboardDisplay product={products[i] as Product} />)
+            setEmProducts(emProducts.map((val) => { return val }));
+          }
+
+        });
 
 
       if (!loaded[1])
-      getAllClientsFromFirestore(tempUser).then((result) => {
-        setClients(result);
+        getAllClientsFromFirestore(tempUser).then((result) => {
+          setClients(result);
 
-        setLoaded(loaded.map((val, index) => {return index == 1}));
-      });
+          setLoaded(loaded.map((val, index) => { if (index == 1) return true; return val; }));
+          
+          for (let i = 0; i < clients.length; i++) {
+            emClients.push(<ClientDashboardDisplay client={clients[i] as Client} />)
+            setEmClients(emClients.map((val) => { return val }))
+          }
+        });
 
 
       if (!loaded[2])
-      getAllContractsFromFirestore(tempUser).then((result) =>
-      {
-        setContracts(result as Contract[]);
+        getAllContractsFromFirestore(tempUser).then((result) => {
+          setContracts(result as Contract[]);
 
-        setLoaded(loaded.map((val, index) => {return index == 2}));
-      });
+          setLoaded(loaded.map((val, index) => { if (index == 2) return true; return val; }));
+
+          for (let i = 0; i < contracts.length; i++) {
+            emContracts.push(<ContractDashboardDisplay contract={contracts[i] as Contract} />)
+            setEmContracts(emContracts.map((val) => { return val }))
+          }
+        });
     }
     else setFailed(true);
   })
 
 
 
-  for (let i = 0; i<products.length; i++)
-  {
-    emProducts.push(<ProductDashboardDisplay product={products[i] as Product}/>)
-  }
 
-  for (let i = 0; i<clients.length; i++)
-  {
-    emCustomers.push(<ClientDashboardDisplay client={clients[i] as Client}/>)
-  }
-
-  for (let i = 0; i<contracts.length; i++)
-  {
-    emContracts.push(<ContractDashboardDisplay contract={contracts[i] as Contract}/>)
-  }
 
   const buttonStyle = {
     width: "100%",
@@ -102,7 +101,7 @@ const PageDashboard: FC = (props: any) => {
         </div>
         <div className={"page-dashboard-section edit-component-sub page-dashboard-customers"}>
           <h2>{langProvider.getText("Dashboard.Clients.Title")}</h2>
-          {emCustomers}
+          {emClients}
           <Button style={buttonStyle} color={"secondary"} variant={"contained"} href={"/add/client"}>{langProvider.getText("Buttons.Add")}</Button>
         </div>
       </div>
