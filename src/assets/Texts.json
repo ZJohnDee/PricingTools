@@ -19,6 +19,50 @@
     "Create": {
       "de": "Erstellen",
       "en": "Create"
+    },
+    "CallToAction": {
+      "de": "Jetzt Loslegen!",
+      "en": "Try it out!"
+    }
+  },
+
+
+  "Home": {
+    "Title":
+    {
+      "en": "Organize your pricing",
+      "de": "Organisieren Sie Ihre Preise"
+    },
+    "Subtitle":
+    {
+      "en": "without compilcated tables and documents",
+      "de": "ohne komplizierte Tabellenrechner"
+    },
+
+
+    "AddProducts":
+    {
+      "Title": {
+        "en": "Add complex products with simple steps",
+        "de": "Mit einfachen Mitteln komplexe Produkte darstellen"
+      },
+
+      "Subtitle": {
+        "en": "We use so called 'components' to slice your product into different aspects. Components can then be activated according to your customers needs",
+        "de": "Wir nutzen sogenannte 'Komponenten', um Ihre Produkt in viele kleine Teile aufzuteilen. Jedes dieser Komponenten kann nun je nach Kundenwünsche aktiviert werden."
+      }
+    },
+
+    "ContractRelationship": {
+      "Title": {
+        "en": "Apply Customers to Products",
+        "de": "Kunden zu Produkten hinzufügen"
+      },
+
+      "Subtitle": {
+        "en": "A 'contract' consists of a client and a product. The data of both is used to create an individualized contract.",
+        "de": "Ein 'Vertrag' besteht aus einem Kunden und einem Produkt. Die Daten beider können genutzt werden, um einen individuellen Auftrag zu erstellen."
+      }
     }
   },
 

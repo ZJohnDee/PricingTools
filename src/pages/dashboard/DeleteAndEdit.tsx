@@ -31,7 +31,8 @@ export default (props: DeleteAndEditProps) => {
     <div>
       <div style={{
         display: "flex",
-        flexFlow: "row"
+        flexFlow: "row",
+        justifyContent: "space-between"
       }}>
         <Edit onClick={() => {
           window.location.assign(link);

@@ -23,6 +23,8 @@ const PageAddContract = () => {
   const params = useParams();
   const id = params.contractID;
 
+  console.log("PRODUCT")
+
   useEffect(() => {
     if (contract != null) return;
 

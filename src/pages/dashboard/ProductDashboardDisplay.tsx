@@ -38,7 +38,7 @@ const ProductDashboardDisplay = (props: any) =>
       {emComponents}
 
 
-      <DeleteAndEdit toDelete={product} editLink={"eidt/product/" + product.getID()}/>
+      <DeleteAndEdit toDelete={product} editLink={"edit/product/" + product.getID()}/>
     </div>
   )
 }

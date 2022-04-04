@@ -13,6 +13,7 @@ import PageAddProduct from "./pages/add_product/PageAddProduct";
 import PageAddClient from "./pages/add_client/PageAddClient";
 import PageAddContract from "./pages/add_contract/PageAddContract";
 import {Language} from "./libs/language";
+import PageHome from "./pages/home/PageHome";
 
 const themeOptions = {
   palette: {
@@ -33,7 +34,7 @@ const theme = createTheme(themeOptions);
 function App() {
 
   let userData: any = useUserData();
-  const [language, setLanguage] = useState<Language>("de");
+  const [language, setLanguage] = useState<Language>("en");
 
   return (
 
@@ -45,6 +46,7 @@ function App() {
             <BrowserRouter>
               <Routes>
                 <Route path={"/login"} element={<PageLogin/>}/>
+                <Route path={"/"} element={<PageHome/>}/>
                 <Route path={"/dashboard"} element={<PageDashboard/>}/>
                 <Route path={"/add/product"} element={<PageAddProduct/>}/>
                 <Route path={"/add/client"} element={<PageAddClient/>}/>

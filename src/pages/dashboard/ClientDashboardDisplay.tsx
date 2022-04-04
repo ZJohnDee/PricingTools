@@ -19,7 +19,7 @@ const ClientDashboardDisplay = (props: any) =>
     <div className={"edit-component-sub"}>
       <h3 style={{textAlign: "center"}}>{title + " " + lastName}</h3>
 
-      <DeleteAndEdit toDelete={client} editLink={"eidt/client/" + client.getID()}/>
+      <DeleteAndEdit toDelete={client} editLink={"edit/client/" + client.getID()}/>
     </div>
   )
 }
