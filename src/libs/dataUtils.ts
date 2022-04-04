@@ -742,7 +742,6 @@ export async function deleteFromFirestore(what: Contract | Product | Client, use
   {
     const contract = (what as unknown) as Contract;
     ref = usrDoc.collection("contracts").doc(contract.getID());
-
   }
 
   else if (what instanceof Product)

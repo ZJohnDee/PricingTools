@@ -21,7 +21,7 @@ const PageDashboard: FC = (props: any) => {
   const [clients, setClients] = useState<Client[]>([]);
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [failed, setFailed] = useState(false);
-  const [loaded, setLoaded] = useState([false, false, false])
+  const [loaded, setLoaded] = useState(false);
 
   const [emProducts, setEmProducts] = useState<any[]>([]);
   const [emContracts, setEmContracts] = useState<any[]>([]);
@@ -34,46 +34,45 @@ const PageDashboard: FC = (props: any) => {
     const tempUser = auth.currentUser;
     if (tempUser != null) {
 
-      if (!loaded[0])
-        getAllProductsFromFirestore(tempUser).then((result) => {
-          setProducts(result);
-
-          setLoaded(loaded.map((val, index) => { if (index == 0) return true; return val; }));
-
-          for (let i = 0; i < products.length; i++) {
-            emProducts.push(<ProductDashboardDisplay product={products[i] as Product} />)
-            setEmProducts(emProducts.map((val) => { return val }));
-          }
-
-        });
+      if (loaded) return;
+      setLoaded(true);
 
 
-      if (!loaded[1])
-        getAllClientsFromFirestore(tempUser).then((result) => {
-          setClients(result);
+      getAllProductsFromFirestore(tempUser).then((result) => {
+        setProducts(result);
 
-          setLoaded(loaded.map((val, index) => { if (index == 1) return true; return val; }));
-          
-          for (let i = 0; i < clients.length; i++) {
-            emClients.push(<ClientDashboardDisplay client={clients[i] as Client} />)
-            setEmClients(emClients.map((val) => { return val }))
-          }
-        });
+        for (let i = 0; i < result.length; i++) {
+          emProducts.push(<ProductDashboardDisplay product={result[i] as Product} />)
+          setEmProducts(emProducts.map((val) => { return val }));
+        }
 
 
-      if (!loaded[2])
         getAllContractsFromFirestore(tempUser).then((result) => {
-          setContracts(result as Contract[]);
+          if (result != null)
+          {
+            setContracts(result);
 
-          setLoaded(loaded.map((val, index) => { if (index == 2) return true; return val; }));
-
-          for (let i = 0; i < contracts.length; i++) {
-            emContracts.push(<ContractDashboardDisplay contract={contracts[i] as Contract} />)
-            setEmContracts(emContracts.map((val) => { return val }))
+            for (let i = 0; i < result.length; i++) {
+              emContracts.push(<ContractDashboardDisplay contract={result[i] as Contract} />)
+              setEmContracts(emContracts.map((val) => { return val }));
+            }
           }
-        });
-    }
-    else setFailed(true);
+
+          getAllClientsFromFirestore(tempUser).then((result) => {
+            setClients(result);
+
+
+            for (let i = 0; i < result.length; i++) {
+              emClients.push(<ClientDashboardDisplay client={result[i] as Client} />)
+              setEmClients(emClients.map((val) => { return val }));
+            }
+
+          })
+        })
+
+      })
+
+    } else setFailed(true);
   })
 
 
