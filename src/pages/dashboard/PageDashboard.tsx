@@ -61,7 +61,6 @@ const PageDashboard: FC = (props: any) => {
           getAllClientsFromFirestore(tempUser).then((result) => {
             setClients(result);
 
-
             for (let i = 0; i < result.length; i++) {
               emClients.push(<ClientDashboardDisplay client={result[i] as Client} />)
               setEmClients(emClients.map((val) => { return val }));

@@ -1,6 +1,6 @@
 import {FC, useContext, useState} from "react";
 import React from "react";
-import {ProductComponent} from "../../libs/dataUtils";
+import {ProductComponent, ProductComponentPriceType} from "../../libs/dataUtils";
 import firebase from "firebase/compat";
 import {Button, Checkbox, MenuItem, Select, TextField} from "@mui/material";
 import {LanguageContext} from "../../libs/context";
@@ -51,6 +51,9 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
 
         const choiceName = choice.name;
         const choicePrice = choice.price;
+        let choiceCond = choice.cond;
+
+        if (choiceCond === null) choiceCond = 0;
 
         const em =
           <div className={"edit-component-sub"}>
@@ -77,6 +80,19 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
                 updateParent(component, index);
               }}
             />
+            <TextField
+              variant={"outlined"}
+              label={"COND"}
+              color={"secondary"}
+              defaultValue={choiceCond}
+              type={"number"}
+              onChange={(e) => {
+                choice.cond = Number(e.target.value);
+                component.setChoice(choice, i);
+                updateParent(component, index);
+              }}
+            />
+            <p>Address: {component.getAddress()}</p>
           </div>
         emChoices.push(em);
 
@@ -134,10 +150,9 @@ const ComponentDisplay = (props: ComponentDisplayProps) => {
       <TextField
         variant={"outlined"}
         label={langProvider.getText("Products.Edit.Components.Price")}
-        type={"number"}
         color={"secondary"}
         onChange={(e) => {
-          component.setPrice(Number(e.target.value));
+          component.setPrice(e.target.value as ProductComponentPriceType);
           updateParent(component, index);
         }}
       />

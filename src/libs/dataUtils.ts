@@ -1,8 +1,9 @@
 import {firestore} from "./firebase";
 import firebase from "firebase/compat";
+import {Component} from "react";
 
 type ProductComponentType = "choice" | "amount" | "addon";
-type ProductComponentPriceType = number | "custom" | "cond";
+type ProductComponentPriceType = number | "custom" | string;
 
 interface ProductComponentData {
   name: string,
@@ -10,6 +11,7 @@ interface ProductComponentData {
   price: ProductComponentPriceType,
   required: boolean,
   id: string,
+  address: string,
   description: string,
   choices?:
     {
@@ -119,6 +121,7 @@ export class Product {
       description: "Description",
       id: getRandomId(24),
       type: "addon",
+      address: getRandomId(6),
       price: 100,
       required: false,
       choices: []
@@ -256,6 +259,10 @@ export class ProductComponent {
     return this.data.id;
   }
 
+  getAddress(): string {
+    return this.data.address;
+  }
+
 }
 
 
@@ -379,6 +386,48 @@ export class Contract {
     const component = this.getProduct().getComponentByID(data.componentID)?.component;
     const value = data.value;
 
+    const resolvePriceAsCondString = (component: ProductComponent) =>
+    {
+      if (!(typeof component.getPrice() === 'string')) return -1;
+
+      if ((component.getPrice() as string).includes("cond"))
+      {
+        const sPrice = component.getPrice() as string;
+        if (!sPrice.includes(":")) return 0;
+        const parts = sPrice.split(":");
+        if (parts.length < 2) return 0;
+
+        const address = parts[1];
+
+        for (const cld of this.getComponentLinkData() as ContractComponentLinkData[])
+        {
+          const comp = this.getProduct().getComponentByID(cld.componentID)?.component as ProductComponent;
+          if (comp.getAddress() !== address) continue;
+          if (comp.getType() !== "choice") continue
+          if (!cld.inUse) continue;
+
+          const choices = comp.getChoices();
+
+          let choice: any = null;
+
+          choices?.forEach((c) => {
+            console.log("Checking choice " + c + " against " + value)
+            if (c.name == cld.value) choice = c;
+          })
+
+          if (choice == null) return -1;
+          if (!choice.cond) return -1;
+
+          const price = choice.cond;
+          return price;
+
+        }
+
+      }
+
+      return -1;
+    }
+
 
     if (component == null) return 0;
     if (component.getPrice() == null) return 0;
@@ -399,10 +448,15 @@ export class Contract {
 
         return choice.price;
       case "addon":
-        return component.getPrice() as number;
+        const condPrice = resolvePriceAsCondString(component);
+        if (condPrice !== -1) return condPrice;
+        return Number(component.getPrice()) as number;
+
         break;
       case "amount":
-        return Number(value)*(component.getPrice() as number);
+        let price = resolvePriceAsCondString(component);
+        if (price === -1) price = Number(component.getPrice());
+        return Number(value)*price;
         break;
     }
   };
@@ -467,9 +521,11 @@ export function createNewContract(product: Product, client: Client) {
 }
 
 
+function logRead() {console.log("Firestore Read")}
+
 export async function getAllProductsFromFirestore(user: any): Promise<Product[]> {
   let ref = firestore.collection("users").doc(user.uid).collection("products");
-  let result = await ref.get();
+  let result = await ref.get(); logRead()
 
   let data = result.docs.map((doc) => {
     return doc.data()
@@ -484,7 +540,7 @@ export async function getProductFromFirestore(user: any, id: string): Promise<Pr
   const ref = firestore.collection("users").doc(user.uid).collection("products").doc(id);
 
   if (ref) {
-    let snap = await ref.get();
+    let snap = await ref.get(); logRead()
     let product = new Product((snap.data() as ProductData));
 
     return product;
@@ -513,7 +569,7 @@ export async function pushClientToFirestore(user: any, client: Client) {
 
 export async function getAllClientsFromFirestore(user: any): Promise<Client[]> {
   let ref = firestore.collection("users").doc(user.uid).collection("clients");
-  let result = await ref.get();
+  let result = await ref.get(); logRead()
 
   let data = result.docs.map((doc) => {
     return doc.data()
@@ -528,7 +584,7 @@ export async function getClientFromFirestore(user: any, id: string): Promise<Cli
   const ref = firestore.collection("users").doc(user.uid).collection("clients").doc(id);
 
   if (ref) {
-    let snap = await ref.get();
+    let snap = await ref.get(); logRead()
 
     let client = new Client((snap.data() as ClientData));
 
@@ -542,7 +598,7 @@ export async function getClientFromFirestore(user: any, id: string): Promise<Cli
 
 export async function getAllContractsFromFirestore(user: any): Promise<Contract[] | null> {
   let ref = firestore.collection("users").doc(user.uid).collection("contracts");
-  let result = await ref.get();
+  let result = await ref.get(); logRead()
 
   let data = result.docs.map((doc) => {
     return doc.data()
@@ -578,7 +634,7 @@ export async function getContractFromFirestore(user: any, id: string) : Promise<
 
   if (ref)
   {
-     let snap = await ref.get();
+     let snap = await ref.get(); logRead()
      let data = snap.data() as ContractFirebaseData;
 
     //If the contract is archived, we can return the raw data:
@@ -763,4 +819,4 @@ export async function deleteFromFirestore(what: Contract | Product | Client, use
 
 
 
-export type {ProductData, ProductComponentData, ProductComponentType, ContractComponentLinkData, ContractData};
+export type {ProductData, ProductComponentData, ProductComponentType, ContractComponentLinkData, ContractData, ProductComponentPriceType};
