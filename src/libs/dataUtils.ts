@@ -521,11 +521,11 @@ export function createNewContract(product: Product, client: Client) {
 }
 
 
-function logRead() {console.log("Firestore Read")}
+function logRead(additional: string = "") {console.log("Firestore Read", additional)}
 
 export async function getAllProductsFromFirestore(user: any): Promise<Product[]> {
   let ref = firestore.collection("users").doc(user.uid).collection("products");
-  let result = await ref.get(); logRead()
+  let result = await ref.get(); logRead("GetAll")
 
   let data = result.docs.map((doc) => {
     return doc.data()
@@ -631,11 +631,14 @@ export async function getAllContractsFromFirestore(user: any): Promise<Contract[
 export async function getContractFromFirestore(user: any, id: string) : Promise<Contract | null>
 {
   const ref = firestore.collection("users").doc(user.uid).collection("contracts").doc(id);
+  if (!ref) return null;
 
   if (ref)
   {
      let snap = await ref.get(); logRead()
      let data = snap.data() as ContractFirebaseData;
+
+     if (!data) return null;
 
     //If the contract is archived, we can return the raw data:
     if (data.archived)

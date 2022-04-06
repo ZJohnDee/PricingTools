@@ -33,6 +33,7 @@ const PageAddContract = () => {
     if (userTemp == null) return;
 
     getContractFromFirestore(userTemp, id as string).then((result) => {
+      if (result == null) return;
       setContract(result as Contract);
     });
 
@@ -268,6 +269,7 @@ const CreateNewContract = (props: any) => {
     if (user == null) return;
 
     if (!productsLoaded) {
+
       getAllProductsFromFirestore(user).then((result) => {
         setProducts(result);
 
@@ -276,6 +278,7 @@ const CreateNewContract = (props: any) => {
         });
 
         setEmProductMenuItems(emProductMenuItems);
+
         setProductsLoaded(true);
         repaint();
       });
