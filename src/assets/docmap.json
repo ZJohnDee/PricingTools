@@ -11,6 +11,18 @@
       "de" : "Dashboard",
       "en" : "Dashboard",
       "link": "dashboard"
+    },
+    {
+      "id": "adding_client",
+      "de" : "Kunden hinzufügen",
+      "en" : "Adding a client",
+      "link": "adding_client"
+    },
+    {
+      "id": "adding_product",
+      "de" : "Produkt hinzufügen",
+      "en" : "Adding a product",
+      "link": "adding_product"
     }
   ]
 }
