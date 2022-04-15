@@ -23,6 +23,18 @@
       "de" : "Produkt hinzufügen",
       "en" : "Adding a product",
       "link": "adding_product"
+    },
+    {
+      "id": "conditional_pricing",
+      "de" : "Bedingte Preise",
+      "en" : "Conditional Pricing",
+      "link": "conditional_pricing"
+    },
+    {
+      "id": "adding_contract",
+      "de" : "Einen Vertrag hinzufügen",
+      "en" : "Adding a contract",
+      "link": "adding_contract"
     }
   ]
 }
