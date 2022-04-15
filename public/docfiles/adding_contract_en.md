@@ -3,7 +3,7 @@
 Contracts can be used to create an individualized project for a *client* by enabling or disabling certain *components* of
 a specified *product*.
 ## Creating a new contract
-When you press *Add* on the dashboard for adding a contract, you must select a *product* and a client* to create the contract from. For a contract to be created there have to be at least one product and one client.
+When you press *Add* on the dashboard for adding a contract, you must select a *product* and a *client* to create the contract from. For a contract to be created there have to be at least one product and one client.
 ## What's on the screen?
 To the left, there are all the components that are enabled. To the right, there are all the components that are not yet enabled.
 Beneath each component, you can see the price of that component individually. Below all the components, which are activated, you can see the total price of the project, based on the components enabled and their respective settings.  
