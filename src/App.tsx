@@ -14,6 +14,7 @@ import PageAddClient from "./pages/add_client/PageAddClient";
 import PageAddContract from "./pages/add_contract/PageAddContract";
 import {Language} from "./libs/language";
 import PageHome from "./pages/home/PageHome";
+import PageDocs from "./pages/docs/PageDocs";
 
 const themeOptions = {
   palette: {
@@ -54,6 +55,7 @@ function App() {
                 <Route path={"/edit/product/:productID"} element={<PageAddProduct/>}/>
                 <Route path={"/edit/client/:clientID"} element={<PageAddClient/>}/>
                 <Route path={"/edit/contract/:contractID"} element={<PageAddContract/>}/>
+                <Route path={"/docs/:path"} element={<PageDocs/>}/>
               </Routes>
             </BrowserRouter>
           </ThemeProvider>

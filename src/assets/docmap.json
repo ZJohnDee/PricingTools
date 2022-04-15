@@ -1,0 +1,16 @@
+{
+  "docs": [
+    {
+      "id": "getting_started",
+      "de" : "Einführung",
+      "en" : "Getting Started",
+      "link": "getting_started"
+    },
+    {
+      "id": "dashboard",
+      "de" : "Dashboard",
+      "en" : "Dashboard",
+      "link": "dashboard"
+    }
+  ]
+}
