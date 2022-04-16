@@ -26,6 +26,22 @@
     }
   },
 
+  "Footer": {
+    "Home":{
+      "de":"Home",
+      "en":"Home"
+    },
+    "Impressum":{
+      "de":"Impressum",
+      "en":"Contact Data"
+    },
+    "Privacy":
+    {
+      "de":"Datenschutz",
+      "en":"Privacy"
+    }
+  },
+
 
   "Home": {
     "Title":

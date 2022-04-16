@@ -1,0 +1,11 @@
+.footer
+{
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+
+  box-shadow: 0 -5px 15px #e0e0e0;
+  min-height: 80px;
+}
