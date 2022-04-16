@@ -16,6 +16,7 @@ import {Language} from "./libs/language";
 import PageHome from "./pages/home/PageHome";
 import PageDocs from "./pages/docs/PageDocs";
 import Footer from './components/footer/Footer';
+import PageDebug from './pages/page_debug/PageDebug';
 
 const themeOptions = {
   palette: {
@@ -57,6 +58,7 @@ function App() {
                 <Route path={"/edit/client/:clientID"} element={<PageAddClient/>}/>
                 <Route path={"/edit/contract/:contractID"} element={<PageAddContract/>}/>
                 <Route path={"/docs/:path"} element={<PageDocs/>}/>
+                <Route path={"/debug"} element={<PageDebug/>}/>
               </Routes>
               <Footer/>
             </BrowserRouter>

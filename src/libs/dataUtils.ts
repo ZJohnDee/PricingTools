@@ -540,9 +540,10 @@ export async function getProductFromFirestore(user: any, id: string): Promise<Pr
   const ref = firestore.collection("users").doc(user.uid).collection("products").doc(id);
 
   if (ref) {
+    
     let snap = await ref.get(); logRead()
     let product = new Product((snap.data() as ProductData));
-
+  
     return product;
   }
 
@@ -555,7 +556,7 @@ export async function pushProductToFirestore(user: any, product: Product) {
 
   let ref = firestore.collection("users").doc(user.uid).collection("products").doc(id);
 
-  await ref.set(product.data);
+  await ref.set(product.data).catch((error) => console.log(error));
 
 }
 
