@@ -24,6 +24,14 @@ const Header:FC = (props) =>
       </div>
       <div className={"header-login"}>
 
+        <Button
+          color={"secondary"}
+          variant={"text"}
+          href="/docs/getting_started"
+          style={{marginRight: "5px"}}
+        >
+          Docs
+        </Button>
         {
           !loggedIn &&
           <Button
