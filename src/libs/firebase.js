@@ -39,7 +39,7 @@ export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 export const firestore = firebase.firestore();
 export const storage = firebase.storage();
 
-
+firebase.firestore.setLogLevel("debug");
 
 export const loginWithGoogle = async () =>
 {

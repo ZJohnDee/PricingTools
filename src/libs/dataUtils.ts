@@ -1,5 +1,5 @@
 import {firestore} from "./firebase";
-import firebase from "firebase/compat";
+import firebase from "firebase/compat/app";
 import {Component} from "react";
 
 type ProductComponentType = "choice" | "amount" | "addon";
@@ -521,11 +521,15 @@ export function createNewContract(product: Product, client: Client) {
 }
 
 
-function logRead(additional: string = "") {console.log("Firestore Read", additional)}
+function logRead(additional: string = "") 
+{
+  console.log("Firestore Read", additional, "User: ", firebase.auth().currentUser?.uid);
+}
 
 export async function getAllProductsFromFirestore(user: any): Promise<Product[]> {
   let ref = firestore.collection("users").doc(user.uid).collection("products");
-  let result = await ref.get(); logRead("GetAll")
+  logRead("GetAll")
+  let result = await ref.get(); 
 
   let data = result.docs.map((doc) => {
     return doc.data()
@@ -540,8 +544,8 @@ export async function getProductFromFirestore(user: any, id: string): Promise<Pr
   const ref = firestore.collection("users").doc(user.uid).collection("products").doc(id);
 
   if (ref) {
-    
-    let snap = await ref.get(); logRead()
+    logRead()
+    let snap = await ref.get(); 
     let product = new Product((snap.data() as ProductData));
   
     return product;
@@ -570,7 +574,9 @@ export async function pushClientToFirestore(user: any, client: Client) {
 
 export async function getAllClientsFromFirestore(user: any): Promise<Client[]> {
   let ref = firestore.collection("users").doc(user.uid).collection("clients");
-  let result = await ref.get(); logRead()
+
+  logRead()
+  let result = await ref.get(); 
 
   let data = result.docs.map((doc) => {
     return doc.data()
@@ -585,7 +591,9 @@ export async function getClientFromFirestore(user: any, id: string): Promise<Cli
   const ref = firestore.collection("users").doc(user.uid).collection("clients").doc(id);
 
   if (ref) {
-    let snap = await ref.get(); logRead()
+
+    logRead()
+    let snap = await ref.get(); 
 
     let client = new Client((snap.data() as ClientData));
 
@@ -599,7 +607,9 @@ export async function getClientFromFirestore(user: any, id: string): Promise<Cli
 
 export async function getAllContractsFromFirestore(user: any): Promise<Contract[] | null> {
   let ref = firestore.collection("users").doc(user.uid).collection("contracts");
-  let result = await ref.get(); logRead()
+
+  logRead()
+  let result = await ref.get(); 
 
   let data = result.docs.map((doc) => {
     return doc.data()
@@ -636,7 +646,8 @@ export async function getContractFromFirestore(user: any, id: string) : Promise<
 
   if (ref)
   {
-     let snap = await ref.get(); logRead()
+    logRead()
+     let snap = await ref.get(); 
      let data = snap.data() as ContractFirebaseData;
 
      if (!data) return null;
