@@ -647,10 +647,10 @@ export async function getContractFromFirestore(user: any, id: string) : Promise<
   if (ref)
   {
     logRead()
-     let snap = await ref.get(); 
-     let data = snap.data() as ContractFirebaseData;
+    let snap = await ref.get(); 
+    let data = snap.data() as ContractFirebaseData;
 
-     if (!data) return null;
+    if (!data) return null;
 
     //If the contract is archived, we can return the raw data:
     if (data.archived)
