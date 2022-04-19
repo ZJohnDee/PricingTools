@@ -17,6 +17,8 @@ import PageHome from "./pages/home/PageHome";
 import PageDocs from "./pages/docs/PageDocs";
 import Footer from './components/footer/Footer';
 import PageDebug from './pages/page_debug/PageDebug';
+import PagePrivacy from "./pages/privacy/PagePrivacy";
+import PageImpressum from "./pages/impressum/PageImpressum";
 
 const themeOptions = {
   palette: {
@@ -60,6 +62,8 @@ function App() {
                   <Route path={"/edit/contract/:contractID"} element={<PageAddContract/>}/>
                   <Route path={"/docs/:path"} element={<PageDocs/>}/>
                   <Route path={"/debug"} element={<PageDebug/>}/>
+                  <Route path={"/privacy"} element={<PagePrivacy/>}/>
+                  <Route path={"/impressum"} element={<PageImpressum/>}/>
                 </Routes>
               </BrowserRouter>
             </div>

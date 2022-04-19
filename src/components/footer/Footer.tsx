@@ -23,13 +23,13 @@ export default (props: any) => {
 
   return (
     <div className="footer">
-      <a>
+      <a href={"/"}>
         {langProvider.getText("Footer.Home")}
       </a>
-      <a>
+      <a href={"/impressum"}>
         {langProvider.getText("Footer.Impressum")}
       </a>
-      <a>
+      <a href={"/privacy"}>
         {langProvider.getText("Footer.Privacy")}
       </a>
       <Button
