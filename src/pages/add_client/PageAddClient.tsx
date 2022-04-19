@@ -1,9 +1,11 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Client, getClientFromFirestore, getProductFromFirestore, pushClientToFirestore} from "../../libs/dataUtils";
 import {Button, TextField} from "@mui/material";
-import {UserContext} from "../../libs/context";
+import {LanguageContext, UserContext} from "../../libs/context";
 import {useParams} from "react-router-dom";
 import {auth} from "../../libs/firebase";
+import Disclaimer from "../../components/disclaimer/Disclaimer";
+import { LanguageProvider } from "../../libs/language";
 
 const PageAddClient = (props: any) =>
 {
@@ -13,6 +15,9 @@ const PageAddClient = (props: any) =>
 
   const {user} = useContext(UserContext);
   const params = useParams();
+
+  const {language} = useContext(LanguageContext); 
+  const langProvider = new LanguageProvider(language); 
 
   useEffect(() => {
 
@@ -123,6 +128,12 @@ const PageAddClient = (props: any) =>
           SAVE
         </Button>
       </div>
+
+      <Disclaimer
+        heading={langProvider.getText("Disclaimers.PersonalData.Heading")}
+        message={langProvider.getText("Disclaimers.PersonalData.Message")}
+        type="warning"
+      />
 
     </div>
   )

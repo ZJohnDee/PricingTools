@@ -24,6 +24,7 @@ import {useParams} from "react-router-dom";
 
 import {auth} from "../../libs/firebase";
 import {LanguageProvider} from "../../libs/language";
+import Disclaimer from "../../components/disclaimer/Disclaimer";
 
 
 
@@ -225,6 +226,13 @@ const PageAddProduct:FC = () =>
         </DialogActions>
 
       </Dialog>
+
+
+      <Disclaimer
+        heading={langProvider.getText("Disclaimers.HelpProducts.Heading")}
+        message={langProvider.getText("Disclaimers.HelpProducts.Message")}
+        type="info"
+      />
 
 
 

@@ -16,6 +16,7 @@ import {Delete as DeleteIcon, Add as AddIcon} from '@mui/icons-material';
 import {useParams} from "react-router-dom";
 import {LanguageContext} from "../../libs/context";
 import {LanguageProvider} from "../../libs/language";
+import Disclaimer from "../../components/disclaimer/Disclaimer";
 
 const PageAddContract = () => {
   const [contract, setContract] = useState<Contract | null>(null);
@@ -225,6 +226,12 @@ const ContractLoaded = (props: any) => {
           {langProvider.getText("Buttons.Save")}
         </Button>
       </div>
+
+      <Disclaimer
+        heading={langProvider.getText("Disclaimers.NoLegalContract.Heading")}
+        message={langProvider.getText("Disclaimers.NoLegalContract.Message")}
+        type="caution"
+      />
 
 
     </div>

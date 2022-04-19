@@ -26,6 +26,47 @@
     }
   },
 
+  "Disclaimers":{
+    "PersonalData":
+    {
+      "Heading": {
+        "de":"Keine persönlichen Daten",
+        "en": "No Personal Data"
+      },
+
+      "Message": {
+        "de": "Wir bitten Sie, keine persönlichen Daten Ihrer Kunden einzugeben, außer Sie haben sich dessen explizite Einwilligung geholt. Sie sollten Ihrem Kunden dazu eine Kopie unserer Datenschutzerklärung bereitstellen.",
+        "en":"We kindly ask you not to enter any personal data of your clients, unless they explicitly gave you permission to do so. For that, you should hand them a copy of our privacy policy."
+      }
+    },
+
+    "NoLegalContract":
+    {
+      "Heading":{
+        "de":"Kein Geschäftsvertrag",
+        "en":"No Business Contract"
+      },
+
+      "Message":{
+        "de":"Als 'Vertrag' bezeichnen wir keinen legal anerkannten Geschäftsvertrag. Hierbei handelt es sich lediglich um eine Unterstützung zur Preisfindung. Jedoch hat das hier geschaffene keine jurisitsche Relevanz. Wir übernehmen auch keine Haftung für irgendwelche Fehler, die durch diese Seite zustande kommen.",
+        "en":"When we say 'contract', we don't mean a legally binding business contract. This is solely a tool to help you find prices for your customers. The results of your actions on this side have no legal relevance. We also do not assume liability for any damages that result of using this tool."
+      }
+    },
+
+    "HelpProducts":
+    {
+      "Heading":{
+        "de":"Brauchen Sie hilfe?",
+        "en":"Do you need help?"
+      },
+
+      "Message":{
+        "de":"Produkte sind komplex in der Umsetzung. Falls Sie Hilfe benötigen, können Sie sich unsere Dokumentation (oben auf DOCS klicken) ansehen.",
+        "en":"Products are complex. In case you need help, you should look into our detailed documentation by clicking on DOCS, which is located in the header."
+      }
+    }
+  },
+
   "Footer": {
     "Home":{
       "de":"Home",
