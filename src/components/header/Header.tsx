@@ -20,7 +20,7 @@ const Header:FC = (props) =>
     <div className={"header"}>
       <div className={"header-empty"}></div>
       <div className={"header-logo"}>
-        <h1>Pricing Tool</h1>
+        <h1><a href="/">Pricing Tool</a></h1>
       </div>
       <div className={"header-login"}>
 

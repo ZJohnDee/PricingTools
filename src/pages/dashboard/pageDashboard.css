@@ -37,3 +37,11 @@
     text-align: center;
 
 }
+
+@media (min-width: 320px) and (max-width: 999px)
+{
+    .page-dashboard-sections {
+        display: flex;
+        flex-flow: column;
+    }
+}

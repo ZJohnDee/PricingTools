@@ -14,3 +14,11 @@
     box-shadow: 0 1px 7px #aaaaaa;
     border-radius: 5px;
 }
+
+@media (min-width: 320px) and (max-width: 999px)
+{
+    .docs {
+        display: flex; 
+        flex-flow: column; 
+    }
+}
