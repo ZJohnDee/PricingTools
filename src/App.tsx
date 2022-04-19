@@ -46,28 +46,31 @@ function App() {
         <div className={"App"}>
           <ThemeProvider theme={theme}>
             <Header/>
-            <BrowserRouter>
-              <Routes>
-                <Route path={"/login"} element={<PageLogin/>}/>
-                <Route path={"/"} element={<PageHome/>}/>
-                <Route path={"/dashboard"} element={<PageDashboard/>}/>
-                <Route path={"/add/product"} element={<PageAddProduct/>}/>
-                <Route path={"/add/client"} element={<PageAddClient/>}/>
-                <Route path={"/add/contract"} element={<PageAddContract/>}/>
-                <Route path={"/edit/product/:productID"} element={<PageAddProduct/>}/>
-                <Route path={"/edit/client/:clientID"} element={<PageAddClient/>}/>
-                <Route path={"/edit/contract/:contractID"} element={<PageAddContract/>}/>
-                <Route path={"/docs/:path"} element={<PageDocs/>}/>
-                <Route path={"/debug"} element={<PageDebug/>}/>
-              </Routes>
-              <Footer/>
-            </BrowserRouter>
+            <div id={"page-wrap"}>
+              <BrowserRouter>
+                <Routes>
+                  <Route path={"/login"} element={<PageLogin/>}/>
+                  <Route path={"/"} element={<PageHome/>}/>
+                  <Route path={"/dashboard"} element={<PageDashboard/>}/>
+                  <Route path={"/add/product"} element={<PageAddProduct/>}/>
+                  <Route path={"/add/client"} element={<PageAddClient/>}/>
+                  <Route path={"/add/contract"} element={<PageAddContract/>}/>
+                  <Route path={"/edit/product/:productID"} element={<PageAddProduct/>}/>
+                  <Route path={"/edit/client/:clientID"} element={<PageAddClient/>}/>
+                  <Route path={"/edit/contract/:contractID"} element={<PageAddContract/>}/>
+                  <Route path={"/docs/:path"} element={<PageDocs/>}/>
+                  <Route path={"/debug"} element={<PageDebug/>}/>
+                </Routes>
+              </BrowserRouter>
+            </div>
+            <Footer/>
           </ThemeProvider>
         </div>
       </UserContext.Provider>
     </LanguageContext.Provider>
 
-  );
+  )
+    ;
 }
 
 export default App;

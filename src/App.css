@@ -1,0 +1,20 @@
+.App
+{
+
+}
+
+
+#page-wrap
+{
+    min-height: 1000px;
+}
+
+.header {
+
+}
+
+
+.footer {
+    position: relative;
+    bottom: 0
+}
