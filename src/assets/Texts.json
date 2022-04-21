@@ -64,6 +64,18 @@
         "de":"Produkte sind komplex in der Umsetzung. Falls Sie Hilfe benötigen, können Sie sich unsere Dokumentation (oben auf DOCS klicken) ansehen.",
         "en":"Products are complex. In case you need help, you should look into our detailed documentation by clicking on DOCS, which is located in the header."
       }
+    },
+    "AccountPrivacy":
+    {
+      "Heading": {
+        "de": "Beim Login akzeptieren Sie unsere Datenschutzerkärung.",
+        "en": "By logging in, you accept our privacy policy."
+      },
+
+      "Message": {
+        "de": "Durch den Login mit Google geben Sie viele Daten an Google preis, und Google gibt Daten an uns Preis. Für mehr Informationen sollten Sie unsere Datenschutzerkärung lesen. Durch den Login akzeptieren Sie diese nämlich.",
+        "en": "By loggin in with Google, Goolge recieves a lot if personal data about you. Google also gives us access to certain personal data. For more information, read our privacy policy! By logging in, you accept our privacy policy."
+      }
     }
   },
 
