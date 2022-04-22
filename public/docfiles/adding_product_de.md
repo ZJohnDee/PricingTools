@@ -29,7 +29,7 @@ Jede Komponente kann eine von verschiedenen Arten haben.
   * Eine Komponente, die das Verhalten des Produkts verändert, indem Sie eine Auswahl zur verfügung stellt. (z. B. welche Art von Foto gemacht werden soll; welche Kamera verwendet werden).
 
 ### Art: Optionen
-Nachdem Sie den Typ *Wahl* ausgewählt haben, können Sie nun verschiedene Wahlmöglichkeiten hinzufügen, indem Sie *+Wahl* drücken. 
+Nachdem Sie den Typ *Optionen* ausgewählt haben, können Sie nun verschiedene Wahlmöglichkeiten hinzufügen, indem Sie *+Option* drücken. 
 
 Jede Auswahl hat einen *Name*, einen *Preis* und ein *COND* Feld. Der Wert, der im Feld *Preis* angegeben wird, ist der Betrag, der zum Gesamtpreis des Produkts hinzugefügt wird, und zwar NUR, wenn die Auswahl ausgewählt wurde. Andernfalls wird der Preis verworfen. Der Wert COND wird für *Bedingte Preise* verwendet. Erfahren Sie mehr über bedingte Preise [hier](/docs/conditional_pricing).
 
@@ -39,4 +39,4 @@ Eine Komponente, die bereits standardmäßig im Produkt enthalten ist (z.B. das 
 ## Trotz bestehenden Verträgen speichern.
 Standardmäßig wird in Verträgen keine Kopie des Produkts gespeichert, sondern eine Referenz. Das bedeutet, dass die Bearbeitung eines Produkts die Vertragsdaten beeinflussen kann. Wenn Sie also eine Komponente umbenennen, wird der Name der Komponente in allen Verträgen geändert, die auf das Produkt verweisen. 
 
-Dies kann jedoch zu unerwartetem Verhalten führen und sogar einen Vertrag zerstören, wenn dieser auf bestimmte Daten angewiesen ist. Daher prüft das System beim Speichern, ob es Verträge gibt, die auf das Produkt verweisen. Sie können dann entscheiden, ob Sie den Vertrag *archivieren* oder mit dem Speichern des Produkts fortfahren wollen. Wenn Sie den Vertrag archivieren, wird im Vertrag eine Kopie der aktuellen Version des Produkts anstelle einer Referenz gespeichert, so dass Änderungen am Produkt keine Auswirkungen auf den Vertrag haben. Wenn Sie sich sicher sind, was Sie tun, können Sie das Produkt auch einfach speichern, wodurch der Vertrag allerdings beschädigt werden könnte.
+Dies kann jedoch zu unerwartetem Verhalten führen und sogar einen Vertrag zerstören, wenn dieser auf bestimmte Daten angewiesen ist. Daher prüft das System beim Speichern, ob es Verträge gibt, die auf das Produkt verweisen. Sie können dann entscheiden, ob Sie den Vertrag *archivieren* oder mit dem Speichern des Produkts fortfahren wollen. Wenn Sie den Vertrag archivieren, wird im Vertrag eine Kopie der aktuellen Version des Produkts anstelle einer Referenz gespeichert, sodass Änderungen am Produkt keine Auswirkungen auf den Vertrag haben. Wenn Sie sich sicher sind, was Sie tun, können Sie das Produkt auch einfach speichern, wodurch der Vertrag allerdings beschädigt werden könnte.

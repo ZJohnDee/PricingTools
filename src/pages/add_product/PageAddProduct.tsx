@@ -145,19 +145,6 @@ const PageAddProduct:FC = () =>
         {emComponents}
       </div>
 
-
-      <Button
-        color={"secondary"}
-        variant={"contained"}
-        style={styleMargin}
-        onClick={() =>
-        {
-          console.log(product.data);
-        }}
-      >
-        Print Component Data
-      </Button>
-
       <Button
         color={"secondary"}
         variant="contained"

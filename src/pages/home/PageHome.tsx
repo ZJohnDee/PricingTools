@@ -22,6 +22,7 @@ export default (props: any) => {
           <Button
             variant={"contained"}
             color={"secondary"}
+            href={"/login"}
           >
             {langProvider.getText("Buttons.CallToAction")}
           </Button>

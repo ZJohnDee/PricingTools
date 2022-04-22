@@ -1,28 +1,28 @@
 import {Warning, Lightbulb, Check} from "@mui/icons-material";
 
 
-export default (props: 
+export default (props:
   {
-    heading: string, 
-    message: string, 
+    heading: string,
+    message: string,
     type: "warning" | "info" | "check" | "caution"
   }) => {
 
 
-  const {heading, message, type} = props; 
+  const {heading, message, type} = props;
 
   const iconStyle: React.CSSProperties = {
     width: "100%"
   };
-  
+
   let icon: JSX.Element;
-  let color: string;  
+  let color: string;
   switch (type)
   {
     case "caution":
       icon = <Warning fontSize="large"/>;
       color = "#f9c199"
-      break; 
+      break;
     case "info":
       icon = <Lightbulb fontSize="large"/>
       color = "#acb1f2";
@@ -30,7 +30,7 @@ export default (props:
     case "warning":
       icon = <Warning fontSize="large"/>;
       color = "#ff8689";
-      break; 
+      break;
     case "check":
       icon = <Check fontSize="large"/>
       color = "#aefba8";
@@ -48,7 +48,7 @@ export default (props:
     "justifyContent": "center",
     "justifyItems": "center",
     borderRadius: "10px",
-    minWidth: "350px",
+    minWidth: "280px",
     marginTop: "15px",
   }
 
